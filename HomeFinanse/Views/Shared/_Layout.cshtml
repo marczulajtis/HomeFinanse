@@ -1,0 +1,36 @@
+﻿@using System.Web.Optimization;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/login_form")
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">
+
+    @section scripts {
+        <!-- We would add slider scripts here -->
+    }
+</head>
+<body>
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <script type="text/javascript" src="~/scripts/bootstrap.min.js"></script>
+
+    @Scripts.Render("~/admin-lte/js")
+    @*@Scripts.Render("~/Content/login_form/js")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

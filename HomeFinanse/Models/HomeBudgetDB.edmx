@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HomeBudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NFLAG" Type="bit" />
+        </EntityType>
+        <EntityType Name="Incomes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IncomeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Place" Type="varchar" MaxLength="50" />
+          <Property Name="IncomeDate" Type="datetime" />
+          <Property Name="Month" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="PeriodID" Type="int" Nullable="false" />
+          <Property Name="OnAccount" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Outcomes">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OutcomeName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="Place" Type="varchar" MaxLength="50" />
+          <Property Name="Planned" Type="bit" />
+          <Property Name="Month" Type="int" />
+          <Property Name="Year" Type="int" />
+          <Property Name="PeriodID" Type="int" Nullable="false" />
+          <Property Name="Payed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Periods">
+          <Key>
+            <PropertyRef Name="PeriodID" />
+          </Key>
+          <Property Name="PeriodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PeriodStart" Type="datetime" Nullable="false" />
+          <Property Name="PeriodEnd" Type="datetime" Nullable="false" />
+          <Property Name="PeriodName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Incomes__Categor__239E4DCF">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Incomes">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incomes_Period">
+          <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
+          <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periods">
+              <PropertyRef Name="PeriodID" />
+            </Principal>
+            <Dependent Role="Incomes">
+              <PropertyRef Name="PeriodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outcomes_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Outcomes" Type="Self.Outcomes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Outcomes">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outcomes_Period">
+          <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
+          <End Role="Outcomes" Type="Self.Outcomes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periods">
+              <PropertyRef Name="PeriodID" />
+            </Principal>
+            <Dependent Role="Outcomes">
+              <PropertyRef Name="PeriodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeBudgetDBModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Incomes" EntityType="Self.Incomes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Outcomes" EntityType="Self.Outcomes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Periods" EntityType="Self.Periods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Incomes__Categor__239E4DCF" Association="Self.FK__Incomes__Categor__239E4DCF">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Incomes" EntitySet="Incomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incomes_Period" Association="Self.FK_Incomes_Period">
+            <End Role="Periods" EntitySet="Periods" />
+            <End Role="Incomes" EntitySet="Incomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outcomes_Categories" Association="Self.FK_Outcomes_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Outcomes" EntitySet="Outcomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outcomes_Period" Association="Self.FK_Outcomes_Period">
+            <End Role="Periods" EntitySet="Periods" />
+            <End Role="Outcomes" EntitySet="Outcomes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HomeBudgetDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="NFLAG" Type="Boolean" />
+          <NavigationProperty Name="Incomes" Relationship="Self.FK__Incomes__Categor__239E4DCF" FromRole="Categories" ToRole="Incomes" />
+          <NavigationProperty Name="Outcomes" Relationship="Self.FK_Outcomes_Categories" FromRole="Categories" ToRole="Outcomes" />
+        </EntityType>
+        <EntityType Name="Income">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IncomeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IncomeDate" Type="DateTime" Precision="3" />
+          <Property Name="Month" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="PeriodID" Type="Int32" Nullable="false" />
+          <Property Name="OnAccount" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK__Incomes__Categor__239E4DCF" FromRole="Incomes" ToRole="Categories" />
+          <NavigationProperty Name="Period" Relationship="Self.FK_Incomes_Period" FromRole="Incomes" ToRole="Periods" />
+        </EntityType>
+        <EntityType Name="Outcome">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OutcomeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Planned" Type="Boolean" />
+          <Property Name="Month" Type="Int32" />
+          <Property Name="Year" Type="Int32" />
+          <Property Name="PeriodID" Type="Int32" Nullable="false" />
+          <Property Name="Payed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Outcomes_Categories" FromRole="Outcomes" ToRole="Categories" />
+          <NavigationProperty Name="Period" Relationship="Self.FK_Outcomes_Period" FromRole="Outcomes" ToRole="Periods" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="PeriodID" />
+          </Key>
+          <Property Name="PeriodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PeriodStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PeriodEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PeriodName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Incomes" Relationship="Self.FK_Incomes_Period" FromRole="Periods" ToRole="Incomes" />
+          <NavigationProperty Name="Outcomes" Relationship="Self.FK_Outcomes_Period" FromRole="Periods" ToRole="Outcomes" />
+        </EntityType>
+        <Association Name="FK__Incomes__Categor__239E4DCF">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Incomes" Type="Self.Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Incomes">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outcomes_Categories">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Outcomes" Type="Self.Outcome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Outcomes">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Incomes_Period">
+          <End Role="Periods" Type="Self.Period" Multiplicity="1" />
+          <End Role="Incomes" Type="Self.Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periods">
+              <PropertyRef Name="PeriodID" />
+            </Principal>
+            <Dependent Role="Incomes">
+              <PropertyRef Name="PeriodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Outcomes_Period">
+          <End Role="Periods" Type="Self.Period" Multiplicity="1" />
+          <End Role="Outcomes" Type="Self.Outcome" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periods">
+              <PropertyRef Name="PeriodID" />
+            </Principal>
+            <Dependent Role="Outcomes">
+              <PropertyRef Name="PeriodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeBudgetDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Incomes" EntityType="Self.Income" />
+          <EntitySet Name="Outcomes" EntityType="Self.Outcome" />
+          <EntitySet Name="Periods" EntityType="Self.Period" />
+          <AssociationSet Name="FK__Incomes__Categor__239E4DCF" Association="Self.FK__Incomes__Categor__239E4DCF">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Incomes" EntitySet="Incomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outcomes_Categories" Association="Self.FK_Outcomes_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Outcomes" EntitySet="Outcomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Incomes_Period" Association="Self.FK_Incomes_Period">
+            <End Role="Periods" EntitySet="Periods" />
+            <End Role="Incomes" EntitySet="Incomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Outcomes_Period" Association="Self.FK_Outcomes_Period">
+            <End Role="Periods" EntitySet="Periods" />
+            <End Role="Outcomes" EntitySet="Outcomes" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="HomeBudgetDBModel.User" />
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HomeBudgetDBModelStoreContainer" CdmEntityContainer="HomeBudgetDBEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="NFLAG" ColumnName="NFLAG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Incomes">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Income">
+              <MappingFragment StoreEntitySet="Incomes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IncomeName" ColumnName="IncomeName" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="IncomeDate" ColumnName="IncomeDate" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
+                <ScalarProperty Name="OnAccount" ColumnName="OnAccount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Outcomes">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Outcome">
+              <MappingFragment StoreEntitySet="Outcomes">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="OutcomeName" ColumnName="OutcomeName" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="Planned" ColumnName="Planned" />
+                <ScalarProperty Name="Month" ColumnName="Month" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
+                <ScalarProperty Name="Payed" ColumnName="Payed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Periods">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Period">
+              <MappingFragment StoreEntitySet="Periods">
+                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
+                <ScalarProperty Name="PeriodStart" ColumnName="PeriodStart" />
+                <ScalarProperty Name="PeriodEnd" ColumnName="PeriodEnd" />
+                <ScalarProperty Name="PeriodName" ColumnName="PeriodName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

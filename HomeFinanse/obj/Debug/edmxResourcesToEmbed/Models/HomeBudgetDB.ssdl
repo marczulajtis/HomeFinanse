@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HomeBudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="NFLAG" Type="bit" />
+  </EntityType>
+  <EntityType Name="Incomes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IncomeName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="Place" Type="varchar" MaxLength="50" />
+    <Property Name="IncomeDate" Type="datetime" />
+    <Property Name="Month" Type="int" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="PeriodID" Type="int" Nullable="false" />
+    <Property Name="OnAccount" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Outcomes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OutcomeName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="CategoryID" Type="int" Nullable="false" />
+    <Property Name="Place" Type="varchar" MaxLength="50" />
+    <Property Name="Planned" Type="bit" />
+    <Property Name="Month" Type="int" />
+    <Property Name="Year" Type="int" />
+    <Property Name="PeriodID" Type="int" Nullable="false" />
+    <Property Name="Payed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Periods">
+    <Key>
+      <PropertyRef Name="PeriodID" />
+    </Key>
+    <Property Name="PeriodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PeriodStart" Type="datetime" Nullable="false" />
+    <Property Name="PeriodEnd" Type="datetime" Nullable="false" />
+    <Property Name="PeriodName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Incomes__Categor__239E4DCF">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+    <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Incomes">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Incomes_Period">
+    <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
+    <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periods">
+        <PropertyRef Name="PeriodID" />
+      </Principal>
+      <Dependent Role="Incomes">
+        <PropertyRef Name="PeriodID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Outcomes_Categories">
+    <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+    <End Role="Outcomes" Type="Self.Outcomes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categories">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="Outcomes">
+        <PropertyRef Name="CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Outcomes_Period">
+    <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
+    <End Role="Outcomes" Type="Self.Outcomes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Periods">
+        <PropertyRef Name="PeriodID" />
+      </Principal>
+      <Dependent Role="Outcomes">
+        <PropertyRef Name="PeriodID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HomeBudgetDBModelStoreContainer">
+    <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Incomes" EntityType="Self.Incomes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Outcomes" EntityType="Self.Outcomes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Periods" EntityType="Self.Periods" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Incomes__Categor__239E4DCF" Association="Self.FK__Incomes__Categor__239E4DCF">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Incomes" EntitySet="Incomes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Incomes_Period" Association="Self.FK_Incomes_Period">
+      <End Role="Periods" EntitySet="Periods" />
+      <End Role="Incomes" EntitySet="Incomes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Outcomes_Categories" Association="Self.FK_Outcomes_Categories">
+      <End Role="Categories" EntitySet="Categories" />
+      <End Role="Outcomes" EntitySet="Outcomes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Outcomes_Period" Association="Self.FK_Outcomes_Period">
+      <End Role="Periods" EntitySet="Periods" />
+      <End Role="Outcomes" EntitySet="Outcomes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

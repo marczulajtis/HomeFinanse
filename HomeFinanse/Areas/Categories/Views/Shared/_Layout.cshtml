@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Home Budget</title>
+
+</head>
+<body>
+    @*@Html.Partial("_Menu")*@
+
+        <div id="modalWrapper">
+            @* Inject form here *@
+        </div>
+
+        @RenderBody()
+
+    <script type="text/javascript">
+        $(function () {
+            $('#complete').click(function () {
+                if (confirm('Are you sure you want to delete this category?')) {
+                    window.location.href = $(this).data('url');
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.editModal').modal();
+        });
+
+        function editCategory(categoryID) {
+            $.ajax({
+                url: '/Categories/Category/GetCategoryDetailsForModal/' + categoryID, // The method name + paramater
+                success: function (data) {
+                    $('#modalWrapper').html(data); // This should be an empty div where you can inject your new html (the partial view)
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿@model HomeFinanse.Areas.Outcomes.Models.OutcomeViewModel
+
+@{
+    ViewBag.Title = "Add outcome";
+}
+
+<div class="h3 margin-top-20">
+    Add outcome
+</div>
+@if (ViewData["OutcomeAdded"] != null)
+{
+    <div class="alert-success alert">
+
+        @ViewData["OutcomeAdded"]
+    </div>
+}
+
+@Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+
+@using (Html.BeginForm("AddOutcome", "Outcome", new { area = "Outcomes" }, FormMethod.Post, null))
+{
+    if (Model != null)
+    {
+        if (Model.Categories != null)
+        {
+            <hr />
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Outcome name
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.EditorFor(model => model.NewOutcome.OutcomeName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Value
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.EditorFor(model => model.NewOutcome.Value, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Date
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <div class='input-group date' id='datepicker'>
+                            @Html.TextBoxFor(model => model.NewOutcome.Date, new { @id = "datepicker", @class = "form-control date" })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Category
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.DropDownListFor(model => model.NewOutcome.CategoryID,
+                      new SelectList(Model.Categories, "CategoryID", "CategoryName"),
+                      new { @class = "form-control", style = "display: block;" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Place
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.EditorFor(model => model.NewOutcome.Place, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Planned
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.CheckBoxFor(model => model.NewOutcome.PlannedNotNullable, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            @*<div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Planned Month
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.EditorFor(model => model.NewOutcome.Month, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>*@
+            
+            @*<div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Planned year
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.EditorFor(model => model.NewOutcome.Year, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>*@
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Period
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.DropDownListFor(model => model.NewOutcome.PeriodID,
+                      new SelectList(Model.Periods, "PeriodID", "PeriodName"),
+                      new { @class = "form-control", style = "display: block;" })
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="control-label col-lg-3 col-md-3 col-sm-3">
+                    Payed
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    @Html.CheckBoxFor(model => model.NewOutcome.Payed, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="row form-group col-lg-12 col-sm-12">
+                <input type="submit" value="Add outcome" class="btn btn-sm btn-primary" />
+            </div>
+
+        }
+    }
+}

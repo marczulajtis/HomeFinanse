@@ -1,0 +1,72 @@
+﻿@model HomeFinanse.Areas.Incomes.Models.IncomeViewModel
+
+@{
+    ViewBag.Title = "Add income";
+}
+
+@if (ViewData["IncomeAdded"] != null)
+{
+    <div class="alert alert-success">
+
+        @ViewData["IncomeAdded"]
+    </div>
+}
+
+@Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+
+@using (Html.BeginForm("AddIncome", "Income", new { area = "Incomes" }, FormMethod.Post, null))
+{
+    if (Model != null)
+    {
+        if (Model.Categories != null)
+        {
+            <div class="box box-primary">
+                <form role="form">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Income name</label>
+                            @Html.EditorFor(model => model.NewIncome.IncomeName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="form-group">
+                            <label>Income value</label>
+                            @Html.EditorFor(model => model.NewIncome.Value, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <div class="input-group date" data-provide="datetimepicker">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                @Html.TextBoxFor(model => model.NewIncome.IncomeDate, new { @id = "datepicker1", @class = "form-control" })
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        @Html.DropDownListFor(model => model.NewIncome.CategoryID,
+                              new SelectList(Model.Categories, "CategoryID", "CategoryName"),
+                              new { @class = "form-control", style = "width: 100%;" })
+                        </div>
+                    <div class="form-group">
+                        <label>Place</label>
+                        @Html.EditorFor(model => model.NewIncome.Place, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                    <div class="form-group">
+                        <label>Period</label>
+                            @Html.DropDownListFor(model => model.NewIncome.PeriodID,
+                              new SelectList(Model.Periods, "PeriodID", "PeriodName"),
+                              new { @class = "form-control", style = "width: 100%;" })
+                    </div>
+                    <div class="form-group">
+                        <label>On Account</label>
+                        <div class="icheckbox_flat-green">
+                            @Html.CheckBoxFor(model => model.NewIncome.OnAccount, new { htmlAttributes = new { @class = "flat-red" } })
+                        </div>
+                    </div>
+
+                <input type="submit" value="Add income" class="btn btn-primary btn-block btn-flat" />
+            </div>
+        </form>
+    </div>
+        }
+    }
+}

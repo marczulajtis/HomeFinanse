@@ -1,0 +1,25 @@
+﻿@model HomeFinanse.Areas.Periods.Models.PeriodViewModel
+
+@if (Model != null)
+{
+    <h3>Select period</h3>
+
+    using (Html.BeginForm("SelectPeriod", "Period", FormMethod.Post, new { area = "Periods" }))
+    {
+        <hr />
+        <div class="row form-group">
+            <div class="control-label col-lg-2 col-md-2 col-sm-2">
+                Period name
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                @Html.DropDownListFor(model => model.SelectedPeriod.PeriodID,
+                     new SelectList(Model.Periods, "PeriodID", "PeriodName"),
+                     new { @class = "form-control", style = "display: block;" })
+            </div>
+        </div>
+
+        <div class="row form-group col-lg-12 col-sm-12">
+            <input type="submit" value="Change period" class="btn btn-sm btn-primary" />
+        </div>
+    }
+}

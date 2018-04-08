@@ -36,7 +36,7 @@ namespace HomeFinanse.Controllers
                 ViewData["LoginError"] = "User name or password was not correct. Please check your credentials and try again.";
             }            
 
-            return View("Index");
+            return View();
         }
 
         public ActionResult Dashboard()

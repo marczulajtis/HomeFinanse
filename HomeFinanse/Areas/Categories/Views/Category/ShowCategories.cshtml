@@ -1,0 +1,67 @@
+﻿@{ 
+    ViewBag.Title = "Categories";
+}
+
+@model IEnumerable<HomeFinanse.Models.Category>
+
+@* add new category *@
+@Html.Partial("AddCategory", new HomeFinanse.Areas.Categories.Models.CategoryNotNullable())
+
+<hr />
+
+@* show errors if exist *@
+
+@Html.ValidationSummary(true)
+
+@if (Model != null)
+{
+    if (Model.ToList().Count == 0)
+    {
+        <h3 class="label label-warning"> No categories </h3>
+    }
+<h3>
+    Categories list
+</h3>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            Important
+        </th>
+        <th>
+            Options
+        </th>
+    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @if (item.NFLAG == true)
+                    {
+                        <span class="glyphicon glyphicon-star"></span>
+                    }
+                    else
+                    {
+                        <span class="glyphicon glyphicon-star-empty"></span>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "DeleteCategory", "Category", new { area = "Categories", categoryID = item.CategoryID }, new
+               {
+                   @onclick = "return confirm('Are you sure you want to delete this category?');",
+                   @class = "glyphicon glyphicon-trash"
+               })
+
+                    @*@Html.ActionLink(" ", "EditCategory", "Category", new { area = "Categories", categoryID = item.CategoryID},
+                        new { @onclick = "editCategory(categoryID)", @class = "glyphicon glyphicon-pencil" })*@
+                </td>
+            </tr>
+        }
+</table>
+}

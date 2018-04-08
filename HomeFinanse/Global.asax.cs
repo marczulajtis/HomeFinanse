@@ -16,7 +16,14 @@ namespace HomeFinanse
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/scripts/jquery-{version}.js"));
+                        "~/scripts/jquery-1.12.4.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+                        "~/scripts/moment.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                        "~/scripts/bootstrap.min.js",
+                        "~/scripts/bootstrap-datetimepicker.min.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
             //            "~/Scripts/jquery.validate*"));
@@ -30,34 +37,18 @@ namespace HomeFinanse
                       "~/Content/site.css",
                       "~/admin-lte/css/AdminLTE.css",
                       "~/admin-lte/css/skins/skin-blue.css",
-                      "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"
+                      "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
+                      "~/Content/Login.css"
                       ));
 
             bundles.Add(new ScriptBundle("~/admin-lte/js").Include(
                     "~/admin-lte/js/adminlte.js",
                     "~/admin-lte/plugins/fastclick/fastclick.js",
-                    "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"
+                    "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js",
+                    "~/scripts/datepicker.js",
+                    "~/scripts/login.js"
                 ));
-
-            bundles.Add(new StyleBundle("~/Content/login_form").Include(
-                    "~/Content/login_form/vendor/animate/animate.css",
-                    "~/Content/login_form/vendor/css-hamburgers/hamburgers.min.css",
-                    "~/Content/login_form/vendor/animsition/css/animsition.min.css",
-                    "~/Content/login_form/vendor/select2/select2.min.css",
-                    "~/Content/login_form/vendor/daterangepicker/daterangepicker.css",
-                    "~/Content/login_form/css/util.css",
-                    "~/Content/login_form/css/main.css"
-                    ));
-
-            bundles.Add(new ScriptBundle("~/Content/login_form/js").Include(
-                    "~/Content/login_form/vendor/animsition/js/animsition.min.js",
-                    "~/Content/login_form/vendor/bootstrap/js/popper.js",
-                    "~/Content/login_form/vendor/select2/select2.min.js",
-                    "~/Content/login_form/vendor/daterangepicker/moment.min.js",
-                    "~/Content/login_form/vendor/daterangepicker/daterangepicker.js",
-                    "~/Content/login_form/vendor/countdowntime/countdowntime.js",
-                    "~/Content/login_form/js/main.js"
-                ));
+            
         }
 
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)

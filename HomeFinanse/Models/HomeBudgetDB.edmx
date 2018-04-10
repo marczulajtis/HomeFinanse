@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="CategoryID" />
           </Key>
-          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="NFLAG" Type="bit" />
         </EntityType>
@@ -64,7 +64,7 @@
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Incomes__Categor__239E4DCF">
+        <Association Name="FK_Incomes_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
           <ReferentialConstraint>
@@ -118,7 +118,7 @@
           <EntitySet Name="Outcomes" EntityType="Self.Outcomes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Periods" EntityType="Self.Periods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Incomes__Categor__239E4DCF" Association="Self.FK__Incomes__Categor__239E4DCF">
+          <AssociationSet Name="FK_Incomes_Categories" Association="Self.FK_Incomes_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Incomes" EntitySet="Incomes" />
           </AssociationSet>

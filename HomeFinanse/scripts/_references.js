@@ -20,6 +20,7 @@
 /// <reference path="bootstrap.js" />
 /// <reference path="bootstrap-datetimepicker.min.js" />
 /// <reference path="datepicker.js" />
+/// <reference path="jquery.unobtrusive-ajax.min.js" />
 /// <reference path="jquery-1.12.4.js" />
 /// <reference path="jquery-3.1.1.js" />
 /// <reference path="jquery-3.1.1.slim.js" />

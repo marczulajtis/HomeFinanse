@@ -25,30 +25,38 @@ namespace HomeFinanse.Areas.Categories.Controllers
         [HttpPost]
         public ActionResult AddCategory(CategoryNotNullable newCategory)
         {
-            if (this.context != null)
+            try
             {
-                if (this.context.Categories != null)
+                if (this.context != null)
                 {
-                    if (!(this.CategoryNameAlreadyExists(newCategory.CategoryName)))
+                    if (this.context.Categories != null)
                     {
-                        this.context.Categories.Add(new Category
+                        if (!(this.CategoryNameAlreadyExists(newCategory.CategoryName)))
                         {
-                            CategoryName = newCategory.CategoryName,
-                            NFLAG = newCategory.NFLAGNotNullable
-                        });
+                            this.context.Categories.Add(new Category
+                            {
+                                CategoryName = newCategory.CategoryName,
+                                NFLAG = newCategory.NFLAGNotNullable
+                            });
 
-                        this.context.SaveChanges();
+                            this.context.SaveChanges();
 
-                        this.ViewData["CategoryAdded"] = "Category successfully added.";
-                    }
-                    else
-                    {
-                        this.ModelState.AddModelError("CategoryExists", "This category already exists.");
+                            this.ViewData["CategoryAdded"] = "Category successfully added.";
+                        }
+                        else
+                        {
+                            this.ModelState.AddModelError("CategoryExists", "This category already exists.");
+                        }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError("CategoryAddingError", 
+                    string.Format("An exception occured while adding category. \n Exception : {0}", ex.Message));
+            }
 
-            return this.View("ShowCategories", this.context.Categories);
+            return PartialView("CategoriesTable", this.context.Categories.ToList());
         }
 
         private bool CategoryNameAlreadyExists(string categoryName)
@@ -66,7 +74,7 @@ namespace HomeFinanse.Areas.Categories.Controllers
         [HttpGet]
         public ActionResult ShowCategories()
         {
-            return View(this.context.Categories.ToList());
+            return PartialView(this.context.Categories.ToList());
         }
 
         //public ActionResult DeleteCategory()
@@ -141,6 +149,12 @@ namespace HomeFinanse.Areas.Categories.Controllers
             this.ModelState.AddModelError("", "No categories found.");
 
             return View("ShowCategories");
+        }
+
+        [HttpPost]
+        public ActionResult ReloadCategories()
+        {
+            return PartialView("ShowCategories", this.context.Categories.ToList());
         }
     }
 }

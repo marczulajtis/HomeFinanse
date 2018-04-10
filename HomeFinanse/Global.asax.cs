@@ -16,7 +16,8 @@ namespace HomeFinanse
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/scripts/jquery-1.12.4.js"));
+                        "~/scripts/jquery-1.12.4.js",
+                        "~/scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/scripts/moment.js"));

@@ -4,6 +4,10 @@
     ViewBag.Title = "Add income";
 }
 
+<div class="h3 margin-top-20">
+    Add income
+</div>
+
 @if (ViewData["IncomeAdded"] != null)
 {
     <div class="alert alert-success">
@@ -12,7 +16,7 @@
     </div>
 }
 
-@Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+@Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
 @using (Html.BeginForm("AddIncome", "Income", new { area = "Incomes" }, FormMethod.Post, null))
 {

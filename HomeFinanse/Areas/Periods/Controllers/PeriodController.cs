@@ -50,7 +50,7 @@ namespace HomeFinanse.Areas.Periods.Controllers
                 }
             }
 
-            return this.View("ShowPeriods", this.context.Periods);
+            return PartialView("PeriodsTable", this.context.Periods);
         }
 
         private bool PeriodAlreadyExists(PeriodModel period)

@@ -73,7 +73,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                     this.ModelState.AddModelError("OutcomeAddingError", "Something went wrong when adding outcome. Try again.");
             }
 
-            return View("ShowOutcomes", new OutcomeViewModel(this.context, new OutcomeNotNullable()));
+            return View("OutcomesTable", this.context.Outcomes);
         }
 
         private Outcome CreateNewOutcome(OutcomeViewModel model)

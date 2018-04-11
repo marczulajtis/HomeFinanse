@@ -439,6 +439,10 @@
     <Content Include="Areas\Periods\Views\_ViewStart.cshtml" />
     <Content Include="scripts\bootstrap-datetimepicker.js" />
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Areas\Outcomes\Views\Outcome\OutcomesTable.cshtml" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
     <Content Include="scripts\jquery-1.12.4.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
@@ -519,6 +523,8 @@
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <Content Include="Areas\Categories\Views\Category\CategoriesTable.cshtml" />
     <Content Include="Areas\Periods\Views\Period\PeriodsTable.cshtml" />
+    <Content Include="Areas\Incomes\Views\Income\IncomesTable.cshtml" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
     <None Include="scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -530,6 +536,11 @@
     <Content Include="scripts\jquery-3.1.1.slim.min.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="scripts\jquery.validate-vsdoc.js" />
+    <Content Include="scripts\jquery.validate.js" />
+    <Content Include="scripts\jquery.validate.min.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\login.js" />
     <Content Include="scripts\menu_manipulation.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />

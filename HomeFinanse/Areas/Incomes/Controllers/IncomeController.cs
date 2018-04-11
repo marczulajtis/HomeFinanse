@@ -53,7 +53,7 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                 this.ModelState.AddModelError("IncomeAddingError", "Something went wrong when adding income. Try again.");
             }
 
-            return View("ShowIncomes", new IncomeViewModel(this.context, new Income()));
+            return PartialView("IncomesTable", this.context.Incomes);
         }
 
         public ActionResult DeleteIncome(int incomeID)

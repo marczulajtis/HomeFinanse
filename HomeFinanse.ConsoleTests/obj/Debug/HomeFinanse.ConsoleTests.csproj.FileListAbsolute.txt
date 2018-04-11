@@ -81,6 +81,10 @@ C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\S
 C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\System.Web.WebPages.xml
 C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\System.Web.WebPages.Deployment.xml
 C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\obj\Debug\HomeFinanse.ConsoleTests.csprojResolveAssemblyReference.cache
-C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\obj\Debug\HomeFinanse.ConsoleTests.csproj.HomeFinanse.ConsoleTests.exe.config
 C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\obj\Debug\HomeFinanse.ConsoleTests.exe
 C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\obj\Debug\HomeFinanse.ConsoleTests.pdb
+C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\WebGrease.dll
+C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\Newtonsoft.Json.dll
+C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\Antlr3.Runtime.dll
+C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\Newtonsoft.Json.xml
+C:\Users\mulan\Documents\GitHub\HomeFinanse\HomeFinanse.ConsoleTests\bin\Debug\Antlr3.Runtime.pdb

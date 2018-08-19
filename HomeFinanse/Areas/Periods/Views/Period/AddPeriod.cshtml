@@ -1,4 +1,4 @@
-﻿@model HomeFinanse.Areas.Periods.Models.PeriodModel
+﻿@model HomeFinanse.Areas.Periods.Models.PeriodViewModel
 
 @{ 
     ViewBag.Title = "Add period";
@@ -25,13 +25,13 @@
         <div class="box-body">
             <div class="form-group">
                 Period name
-                @Html.EditorFor(model => model.PeriodName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.NewPeriod.PeriodName, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="form-group">
                 Period Start Date
                 <div class="form-group" style="margin-bottom: 0;">
                     <div class='input-group date' id='datepicker'>
-                        @Html.TextBoxFor(model => model.NullableStartDate, new { @id = "datepicker", @class = "form-control date" })
+                        @Html.EditorFor(model => model.NewPeriod.NullableStartDate, new { htmlAttributes = new { @class = "form-control date" } })
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -42,7 +42,8 @@
                 Period End Date
                 <div class="form-group" style="margin-bottom: 0;">
                     <div class='input-group date' id='datepicker1'>
-                        @Html.TextBoxFor(model => model.NullableEndDate, new { @id = "datepicker1", @class = "form-control date" })
+                       @* @Html.TextBoxFor(model => model.NullableEndDate, new { @id = "datepicker1",  @class = "form-control date" })*@
+                       @Html.EditorFor(model => model.NewPeriod.NullableEndDate, new { htmlAttributes = new { @class = "form-control date" } })
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>

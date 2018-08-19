@@ -20,11 +20,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IncomeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="Place" Type="varchar" MaxLength="50" />
-          <Property Name="IncomeDate" Type="datetime" />
-          <Property Name="Month" Type="int" Nullable="false" />
-          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="IncomeDate" Type="date" />
           <Property Name="PeriodID" Type="int" Nullable="false" />
           <Property Name="OnAccount" Type="bit" Nullable="false" />
         </EntityType>
@@ -35,12 +31,10 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="OutcomeName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Date" Type="datetime" />
+          <Property Name="Date" Type="date" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="Place" Type="varchar" MaxLength="50" />
           <Property Name="Planned" Type="bit" />
-          <Property Name="Month" Type="int" />
-          <Property Name="Year" Type="int" />
           <Property Name="PeriodID" Type="int" Nullable="false" />
           <Property Name="Payed" Type="bit" Nullable="false" />
         </EntityType>
@@ -49,9 +43,20 @@
             <PropertyRef Name="PeriodID" />
           </Key>
           <Property Name="PeriodID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PeriodStart" Type="datetime" Nullable="false" />
-          <Property Name="PeriodEnd" Type="datetime" Nullable="false" />
+          <Property Name="PeriodStart" Type="date" Nullable="false" />
+          <Property Name="PeriodEnd" Type="date" Nullable="false" />
           <Property Name="PeriodName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Summary">
+          <Key>
+            <PropertyRef Name="SummaryID" />
+          </Key>
+          <Property Name="SummaryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PeriodID" Type="int" Nullable="false" />
+          <Property Name="OnAccount" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="ShouldBe" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Difference" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PerMonth" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -64,18 +69,30 @@
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Salt" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Incomes_Categories">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
-          <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Incomes">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HomeBudgetDB.dbo.Incomes_by_category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Incomes_by_category">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="PeriodName" />
+            <PropertyRef Name="Value" />
+          </Key>
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Incomes total" Type="decimal" Precision="38" Scale="4" />
+          <Property Name="PeriodName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Outcomes_by_category">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="PeriodID" />
+          </Key>
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Sum" Type="decimal" Precision="38" Scale="4" />
+          <Property Name="PeriodID" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK_Incomes_Period">
           <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
           <End Role="Incomes" Type="Self.Incomes" Multiplicity="*" />
@@ -112,16 +129,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Summary_Period">
+          <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
+          <End Role="Summary" Type="Self.Summary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Periods">
+              <PropertyRef Name="PeriodID" />
+            </Principal>
+            <Dependent Role="Summary">
+              <PropertyRef Name="PeriodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="get_period_summary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="periodID" Type="int" Mode="In" />
+          <Parameter Name="planned" Type="bit" Mode="In" />
+        </Function>
         <EntityContainer Name="HomeBudgetDBModelStoreContainer">
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Incomes" EntityType="Self.Incomes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Outcomes" EntityType="Self.Outcomes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Periods" EntityType="Self.Periods" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Summary" EntityType="Self.Summary" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Incomes_Categories" Association="Self.FK_Incomes_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Incomes" EntitySet="Incomes" />
-          </AssociationSet>
+          <EntitySet Name="Incomes_by_category" EntityType="Self.Incomes_by_category" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Incomes_by_category].[CategoryName] AS [CategoryName], 
+    [Incomes_by_category].[Incomes total] AS [Incomes total], 
+    [Incomes_by_category].[PeriodName] AS [PeriodName], 
+    [Incomes_by_category].[Value] AS [Value]
+    FROM [dbo].[Incomes_by_category] AS [Incomes_by_category]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Outcomes_by_category" EntityType="Self.Outcomes_by_category" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Outcomes_by_category].[CategoryName] AS [CategoryName], 
+    [Outcomes_by_category].[Sum] AS [Sum], 
+    [Outcomes_by_category].[PeriodID] AS [PeriodID]
+    FROM [dbo].[Outcomes_by_category] AS [Outcomes_by_category]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Incomes_Period" Association="Self.FK_Incomes_Period">
             <End Role="Periods" EntitySet="Periods" />
             <End Role="Incomes" EntitySet="Incomes" />
@@ -133,6 +178,10 @@
           <AssociationSet Name="FK_Outcomes_Period" Association="Self.FK_Outcomes_Period">
             <End Role="Periods" EntitySet="Periods" />
             <End Role="Outcomes" EntitySet="Outcomes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Summary_Period" Association="Self.FK_Summary_Period">
+            <End Role="Periods" EntitySet="Periods" />
+            <End Role="Summary" EntitySet="Summary" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -146,7 +195,6 @@
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NFLAG" Type="Boolean" />
-          <NavigationProperty Name="Incomes" Relationship="Self.FK__Incomes__Categor__239E4DCF" FromRole="Categories" ToRole="Incomes" />
           <NavigationProperty Name="Outcomes" Relationship="Self.FK_Outcomes_Categories" FromRole="Categories" ToRole="Outcomes" />
         </EntityType>
         <EntityType Name="Income">
@@ -156,14 +204,9 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IncomeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IncomeDate" Type="DateTime" Precision="3" />
-          <Property Name="Month" Type="Int32" Nullable="false" />
-          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="IncomeDate" Type="DateTime" Precision="0" />
           <Property Name="PeriodID" Type="Int32" Nullable="false" />
           <Property Name="OnAccount" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="Self.FK__Incomes__Categor__239E4DCF" FromRole="Incomes" ToRole="Categories" />
           <NavigationProperty Name="Period" Relationship="Self.FK_Incomes_Period" FromRole="Incomes" ToRole="Periods" />
         </EntityType>
         <EntityType Name="Outcome">
@@ -173,12 +216,10 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="OutcomeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Value" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Planned" Type="Boolean" />
-          <Property Name="Month" Type="Int32" />
-          <Property Name="Year" Type="Int32" />
           <Property Name="PeriodID" Type="Int32" Nullable="false" />
           <Property Name="Payed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Outcomes_Categories" FromRole="Outcomes" ToRole="Categories" />
@@ -189,24 +230,13 @@
             <PropertyRef Name="PeriodID" />
           </Key>
           <Property Name="PeriodID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PeriodStart" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PeriodEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PeriodStart" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PeriodEnd" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="PeriodName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Incomes" Relationship="Self.FK_Incomes_Period" FromRole="Periods" ToRole="Incomes" />
           <NavigationProperty Name="Outcomes" Relationship="Self.FK_Outcomes_Period" FromRole="Periods" ToRole="Outcomes" />
+          <NavigationProperty Name="Summaries" Relationship="HomeBudgetDBModel.FK_Summary_Period" FromRole="Period" ToRole="Summary" />
         </EntityType>
-        <Association Name="FK__Incomes__Categor__239E4DCF">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
-          <End Role="Incomes" Type="Self.Income" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Incomes">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Outcomes_Categories">
           <End Role="Categories" Type="Self.Category" Multiplicity="1" />
           <End Role="Outcomes" Type="Self.Outcome" Multiplicity="*" />
@@ -248,10 +278,6 @@
           <EntitySet Name="Incomes" EntityType="Self.Income" />
           <EntitySet Name="Outcomes" EntityType="Self.Outcome" />
           <EntitySet Name="Periods" EntityType="Self.Period" />
-          <AssociationSet Name="FK__Incomes__Categor__239E4DCF" Association="Self.FK__Incomes__Categor__239E4DCF">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Incomes" EntitySet="Incomes" />
-          </AssociationSet>
           <AssociationSet Name="FK_Outcomes_Categories" Association="Self.FK_Outcomes_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Outcomes" EntitySet="Outcomes" />
@@ -265,6 +291,17 @@
             <End Role="Outcomes" EntitySet="Outcomes" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="HomeBudgetDBModel.User" />
+          <EntitySet Name="Incomes_by_category" EntityType="HomeBudgetDBModel.Incomes_by_category" />
+          <EntitySet Name="Outcomes_by_category" EntityType="HomeBudgetDBModel.Outcomes_by_category" />
+          <FunctionImport Name="get_period_summary" ReturnType="Collection(HomeBudgetDBModel.get_period_summary_Result)">
+            <Parameter Name="periodID" Mode="In" Type="Int32" />
+            <Parameter Name="planned" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <EntitySet Name="Summaries" EntityType="HomeBudgetDBModel.Summary" />
+          <AssociationSet Name="FK_Summary_Period" Association="HomeBudgetDBModel.FK_Summary_Period">
+            <End Role="Period" EntitySet="Periods" />
+            <End Role="Summary" EntitySet="Summaries" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -277,6 +314,55 @@
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Incomes_by_category">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="PeriodName" />
+            <PropertyRef Name="Value" />
+          </Key>
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PeriodName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Incomes_total" Type="Decimal" Precision="38" Scale="4" />
+          <Property Name="Value" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+        </EntityType>
+        <EntityType Name="Outcomes_by_category">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="PeriodID" />
+          </Key>
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PeriodID" Type="Int32" Nullable="false" />
+          <Property Name="Sum" Type="Decimal" Precision="38" Scale="4" />
+        </EntityType>
+        <ComplexType Name="get_period_summary_Result">
+          <Property Type="Int32" Name="PeriodID" Nullable="false" />
+          <Property Type="Decimal" Name="Outcomes_planned" Nullable="true" Precision="38" Scale="4" />
+          <Property Type="Decimal" Name="Incomes" Nullable="true" Precision="38" Scale="4" />
+        </ComplexType>
+        <EntityType Name="Summary">
+          <Key>
+            <PropertyRef Name="SummaryID" />
+          </Key>
+          <Property Name="SummaryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PeriodID" Type="Int32" Nullable="false" />
+          <Property Name="OnAccount" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="ShouldBe" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Difference" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PerMonth" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Period" Relationship="HomeBudgetDBModel.FK_Summary_Period" FromRole="Summary" ToRole="Period" />
+        </EntityType>
+        <Association Name="FK_Summary_Period">
+          <End Type="HomeBudgetDBModel.Period" Role="Period" Multiplicity="1" />
+          <End Type="HomeBudgetDBModel.Summary" Role="Summary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="PeriodID" />
+            </Principal>
+            <Dependent Role="Summary">
+              <PropertyRef Name="PeriodID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -298,11 +384,7 @@
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="IncomeName" ColumnName="IncomeName" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="Place" ColumnName="Place" />
                 <ScalarProperty Name="IncomeDate" ColumnName="IncomeDate" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
                 <ScalarProperty Name="OnAccount" ColumnName="OnAccount" />
               </MappingFragment>
@@ -318,8 +400,6 @@
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="Place" ColumnName="Place" />
                 <ScalarProperty Name="Planned" ColumnName="Planned" />
-                <ScalarProperty Name="Month" ColumnName="Month" />
-                <ScalarProperty Name="Year" ColumnName="Year" />
                 <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
                 <ScalarProperty Name="Payed" ColumnName="Payed" />
               </MappingFragment>
@@ -344,6 +424,46 @@
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Incomes_by_category">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Incomes_by_category">
+              <MappingFragment StoreEntitySet="Incomes_by_category">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Incomes_total" ColumnName="Incomes total" />
+                <ScalarProperty Name="PeriodName" ColumnName="PeriodName" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Outcomes_by_category">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Outcomes_by_category">
+              <MappingFragment StoreEntitySet="Outcomes_by_category">
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="get_period_summary" FunctionName="HomeBudgetDBModel.Store.get_period_summary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HomeBudgetDBModel.get_period_summary_Result">
+                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
+                <ScalarProperty Name="Outcomes_planned" ColumnName="Outcomes planned" />
+                <ScalarProperty Name="Incomes" ColumnName="Incomes" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Summaries">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Summary">
+              <MappingFragment StoreEntitySet="Summary">
+                <ScalarProperty Name="PerMonth" ColumnName="PerMonth" />
+                <ScalarProperty Name="Difference" ColumnName="Difference" />
+                <ScalarProperty Name="ShouldBe" ColumnName="ShouldBe" />
+                <ScalarProperty Name="OnAccount" ColumnName="OnAccount" />
+                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
+                <ScalarProperty Name="SummaryID" ColumnName="SummaryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

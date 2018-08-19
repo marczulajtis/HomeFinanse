@@ -1,0 +1,126 @@
+﻿@model HomeFinanse.Models.MainViewModel
+
+<script type="text/javascript">
+
+    var result = @Html.Raw(Json.Encode(Model.OutcomesByCategoryView));
+    var dataPoints = [];
+        for (var i = 0; i < result.length; i++) {
+            dataPoints.push({ label: result[i].CategoryName, y: result[i].Sum });
+        }
+
+        $(function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                startAngle: 240,
+                zoomEnabled: true,
+                animationEnabled: true,
+                yValueFormatString: "##0.00'zł'",
+                indexLabel: "{label} {y}",
+                title: {
+                    text: "Outcomes by category"
+                },
+                data: [
+                {
+                    type: "pie",
+
+                    dataPoints: dataPoints,
+                }
+                ]
+            });
+            chart.render();
+        });
+
+</script>
+
+<div id="summary">
+    @*@using (Ajax.BeginForm("Summary", "Home", null, null, null))
+    {*@
+
+        <div class="row">
+            <div class="form-group form-inline col-xs-4">
+                @Html.LabelFor(model => model.SelectedPeriodID, "Current period", new { @class = "control-label", style = "width: 100px;" })
+
+                @Html.DropDownListFor(model => model.SelectedPeriodID, Model.Periods, new { @class = "control-label" })
+            </div>
+            @*<div class="col-xs-4">
+                <input type="submit" value="Calculate" class="btn btn-primary btn-block btn-flat" />
+            </div>*@
+        </div>
+
+        <br style="clear: both;">
+
+        <div class="row">
+            <div class="form-group form-inline col-xs-4">
+                @Html.LabelFor(model => model.OnAccount, "On Account", new { @class = "control-label", style = "width: 100px;" })
+
+                @Html.TextBoxFor(model => model.OnAccount, new
+       {
+           @class = "form-control",
+           onchange = "OnChangeEvent()",
+           onkeyup = "OnChangeEvent()",
+           oninput = "OnChangeEvent()"
+       })
+            </div>
+            <div class="form-group form-inline col-xs-4" id="incomes">
+                @Html.LabelFor(model => model.TotalIncome, "Total income", new { @class = "control-label", style = "width: 100px;" })
+                @Html.TextBoxFor(model => model.TotalIncome, new { @class = "form-control", style = "font-weight: bold, color: red;",
+               @readonly = "readonly"
+           })
+                <br style="clear: both;" />
+                <br />
+            </div>
+        </div>
+
+        <br style="clear: both" />
+
+        <div class="row">
+            <div class="form-group form-inline col-xs-4">
+                @Html.LabelFor(model => model.ShouldBe, "Should be", new { @class = "control-label", style = "width: 100px;" })
+
+                @Html.TextBoxFor(model => model.ShouldBe, new
+       {
+           @class = "form-control",
+           style = "font-weight: bold, color: red;",
+           @readonly = "readonly"
+       })
+            </div>
+            <div class="form-group form-inline col-xs-4" id="outcomes">
+                @Html.LabelFor(model => model.TotalOutcome, "Total outcome", new { @class = "control-label", style = "width: 100px;" })
+                @Html.TextBoxFor(model => model.TotalOutcome, new { @class = "form-control", style = "font-weight: bold, color: red;",
+               @readonly = "readonly"
+           })
+                <br style="clear: both;" />
+                <br />
+            </div>
+        </div>
+
+        <br style="clear: both" />
+
+        <div class="row">
+            <div class="form-group form-inline col-xs-4">
+                @Html.LabelFor(model => model.Difference, new { @class = "control-label", style = "width: 100px;" })
+
+                @Html.TextBoxFor(model => model.Difference, new { @class = "form-control", @readonly = "readonly", id = "Difference" })
+            </div>
+
+            <div class="form-group form-inline col-xs-4">
+                @Html.LabelFor(model => model.PerMonth, "Per month", new { @class = "control-label", style = "width: 100px;" })
+
+                @Html.TextBoxFor(model => model.PerMonth, new { @class = "form-control", @readonly = "readonly", id = "PerMonth" })
+            </div>
+
+        </div>
+        <br style="clear: both;">
+
+        <div class="row">
+
+
+            <br style="clear: both;">
+
+            <div class="form-group form-inline" id="outcomes">
+
+                <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+
+            </div>
+        </div>
+    @*  *@}
+</div>

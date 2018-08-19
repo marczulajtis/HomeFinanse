@@ -10,15 +10,30 @@ namespace HomeFinanse.Areas.Periods.Models
     {
         private HomeBudgetDBEntities context;
         private Period selectedPeriod = new Period();
+        private PeriodModel newPeriod;
 
         public PeriodViewModel()
         { }
 
-        public PeriodViewModel(HomeBudgetDBEntities context)
+        public PeriodViewModel(HomeBudgetDBEntities context, PeriodModel newPeriod)
         {
             this.context = context;
+            this.newPeriod = newPeriod;
         }
-        
+
+        public PeriodModel NewPeriod
+        {
+            get
+            {
+                return this.newPeriod;
+            }
+
+            set
+            {
+                this.newPeriod = value;
+            }
+        }
+
         public Period SelectedPeriod
         {
             get { return this.selectedPeriod; }

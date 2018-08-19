@@ -17,7 +17,6 @@ namespace HomeFinanse.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
         {
-            this.Incomes = new HashSet<Income>();
             this.Outcomes = new HashSet<Outcome>();
         }
     
@@ -25,8 +24,6 @@ namespace HomeFinanse.Models
         public string CategoryName { get; set; }
         public Nullable<bool> NFLAG { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Income> Incomes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Outcome> Outcomes { get; set; }
     }

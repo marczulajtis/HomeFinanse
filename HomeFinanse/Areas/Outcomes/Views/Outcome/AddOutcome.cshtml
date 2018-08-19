@@ -37,13 +37,11 @@
                         </div>
                         <div class="form-group">
                             <label>Date</label>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <div class='input-group date' id='datepicker'>
-                                    @Html.TextBoxFor(model => model.NewOutcome.Date, new { @id = "datepicker", @class = "form-control date" })
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
+                            <div class="input-group date" data-provide="datetimepicker">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
                                 </div>
+                                @Html.EditorFor(model => model.NewOutcome.Date, new { @class = "form-control date" })
                             </div>
                         </div>
                         <div class="form-group">

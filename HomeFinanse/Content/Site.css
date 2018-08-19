@@ -5,3 +5,12 @@
 .hidden {
     display: none;
 }
+
+.validation-summary-valid
+{
+	display: none;
+}
+
+.validation-summary-errors {
+    list-style-type: none;
+}

@@ -22,7 +22,7 @@ namespace HomeFinanse.Areas.Outcomes.Models
         }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:DD-MM-YYYY}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime OutcomeDate
         {
             get;

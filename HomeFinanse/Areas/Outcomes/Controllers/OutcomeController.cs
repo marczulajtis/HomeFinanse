@@ -26,7 +26,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
         public ActionResult AddOutcome()
         {
             // load lastly added outcome
-            Outcome lastlyAddedOutcome = this.context.Outcomes.OrderByDescending(x => x.ID).First();
+            Outcome lastlyAddedOutcome = this.context?.Outcomes?.OrderByDescending(x => x.ID).First();
 
             if (lastlyAddedOutcome != null)
             {
@@ -53,35 +53,32 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (model != null)
                 {
-                    if (model != null)
+                    if (model.NewOutcome != null)
                     {
-                        if (model.NewOutcome != null)
-                        {
-                            // add new income to db
-                            this.context.Outcomes.Add(this.CreateNewOutcome(model));
-                            this.context.SaveChanges();
+                        // add new income to db
+                        this.context?.Outcomes?.Add(this.CreateNewOutcome(model));
+                        this.context?.SaveChanges();
 
-                            this.ViewData["OutcomeAded"] = "Outcome successfully added.";
-                        }
+                        this.ViewData["OutcomeAded"] = "Outcome successfully added.";
                     }
                 }
             }
             catch (Exception ex)
             {
-                    this.ModelState.AddModelError("OutcomeAddingError", "Something went wrong when adding outcome. Try again.");
+                this.ModelState.AddModelError("OutcomeAddingError", "Something went wrong when adding outcome. Try again.");
             }
 
-            return View("OutcomesTable", this.context.Outcomes);
+            return View("OutcomesTable", this.context?.Outcomes);
         }
 
         private Outcome CreateNewOutcome(OutcomeViewModel model)
         {
             Outcome newOutcomeObject = new Outcome();
 
-            Category outcomeCategory = this.context.Categories.Where(x => x.CategoryID == model.NewOutcome.CategoryID).SingleOrDefault();
-            Period outcomePeriod = this.context.Periods.Where(x => x.PeriodID == model.NewOutcome.PeriodID).SingleOrDefault();
+            Category outcomeCategory = this.context?.Categories?.Where(x => x.CategoryID == model.NewOutcome.CategoryID).SingleOrDefault();
+            Period outcomePeriod = this.context?.Periods?.Where(x => x.PeriodID == model.NewOutcome.PeriodID).SingleOrDefault();
 
             if (model.NewOutcome != null)
             {
@@ -100,25 +97,45 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
             return newOutcomeObject;
         }
 
+        [HttpDelete]
         public ActionResult DeleteOutcome(int outcomeID)
         {
             if (this.context != null)
             {
-                Outcome outcomeToDelete = this.context.Outcomes.Where(outcome => outcome.ID == outcomeID).SingleOrDefault();
+                Outcome outcomeToDelete = this.context?.Outcomes?.Where(outcome => outcome.ID == outcomeID).SingleOrDefault();
 
                 if (outcomeToDelete != null)
                 {
                     // delete income from database
-                    this.context.Outcomes.Remove(outcomeToDelete);
-                    this.context.SaveChanges();
+                    this.context?.Outcomes?.Remove(outcomeToDelete);
+                    this.context?.SaveChanges();
                 }
-
-                return View("ShowOutcomes", new OutcomeViewModel(this.context, new Models.OutcomeNotNullable()));
+            }
+            else
+            {
+                this.ModelState.AddModelError("", "No database data loaded.");
             }
 
-            this.ModelState.AddModelError("", "No database data loaded.");
+            return View("OutcomesTable", this.context?.Outcomes);
+        }
 
-            return View("ShowOutcomes");
+        public ActionResult UpdateOutcomeDate(int outcomeID)
+        {
+            try
+            {
+                var outcome = this.context?.Outcomes?.Where(o => o.ID == outcomeID).SingleOrDefault();
+
+                outcome.Date = DateTime.Now;
+                outcome.Payed = true;
+
+                this.context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError("UpdateOutcomeDateError", string.Format("Outcome date update error: {0}", ex.Message));
+            }
+
+            return View("OutcomesTable", this.context?.Outcomes);
         }
     }
 }

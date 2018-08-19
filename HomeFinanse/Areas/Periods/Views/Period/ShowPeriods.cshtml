@@ -1,16 +1,18 @@
-﻿@model IEnumerable<HomeFinanse.Models.Period>
+﻿@model HomeFinanse.Areas.Periods.Models.PeriodViewModel
 
 <h3> Periods </h3>
 
 <div class="col-lg-4 col-md-4 col-xs-12">
     @* add new period *@
-    @Html.Partial("AddPeriod", new HomeFinanse.Areas.Periods.Models.PeriodModel())
+    @{
+        Html.RenderPartial("AddPeriod");
+    }
 </div>
 
 @* show errors if exist *@
- 
+
 @*@Html.ValidationSummary(true)*@
 
 <div class="col-xs-12 col-lg-8 col-md-8">
-    @Html.Partial("PeriodsTable", Model)
+    @Html.Partial("PeriodsTable", Model.Periods)
 </div>

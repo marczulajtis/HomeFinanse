@@ -16,7 +16,6 @@ namespace HomeFinanse
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/scripts/jquery-1.12.4.js",
                         "~/scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
@@ -46,8 +45,8 @@ namespace HomeFinanse
                     "~/admin-lte/js/adminlte.js",
                     "~/admin-lte/plugins/fastclick/fastclick.js",
                     "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js",
-                    "~/scripts/datepicker.js",
-                    "~/scripts/login.js"
+                    "~/scripts/login.js",
+                    "~/scripts/custom.js"
                 ));
             
         }

@@ -21,8 +21,6 @@ namespace HomeFinanse.Models
         public int CategoryID { get; set; }
         public string Place { get; set; }
         public Nullable<bool> Planned { get; set; }
-        public Nullable<int> Month { get; set; }
-        public Nullable<int> Year { get; set; }
         public int PeriodID { get; set; }
         public bool Payed { get; set; }
     

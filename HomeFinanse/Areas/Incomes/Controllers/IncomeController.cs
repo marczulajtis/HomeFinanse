@@ -56,6 +56,7 @@ namespace HomeFinanse.Areas.Incomes.Controllers
             return PartialView("IncomesTable", this.context.Incomes);
         }
 
+        [HttpDelete]
         public ActionResult DeleteIncome(int incomeID)
         {
             if (this.context != null)
@@ -68,13 +69,19 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                     this.context.Incomes.Remove(incomeToDelete);
                     this.context.SaveChanges();
                 }
-
-                return View("ShowIncomes", new IncomeViewModel(this.context, new Income()));
+            }
+            else
+            {
+                this.ModelState.AddModelError("", "No database data loaded.");
             }
 
-            this.ModelState.AddModelError("", "No database data loaded.");
+            return PartialView("IncomesTable", this.context.Incomes);
+        }
 
-            return View("ShowIncomes");
+        [HttpGet]
+        public ActionResult IncomesSummary()
+        {
+            return View(new MainViewModel(this.context));
         }
 
         /// <summary>
@@ -85,7 +92,6 @@ namespace HomeFinanse.Areas.Incomes.Controllers
         {
             Income newIncomeObject = new Income();
 
-            Category incomeCategory = this.context.Categories.Where(x => x.CategoryID == model.NewIncome.CategoryID).SingleOrDefault();
             Period incomePeriod = this.context.Periods.Where(x => x.PeriodID == model.NewIncome.PeriodID).SingleOrDefault();
 
             if (model.NewIncome != null)
@@ -93,8 +99,6 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                 newIncomeObject.IncomeName = model.NewIncome.IncomeName;
                 newIncomeObject.Value = model.NewIncome.Value;
                 newIncomeObject.IncomeDate = model.NewIncome.IncomeDate;
-                newIncomeObject.Place = model.NewIncome.Place;
-                newIncomeObject.Category = incomeCategory;
                 newIncomeObject.Period = incomePeriod;
                 newIncomeObject.OnAccount = model.NewIncome.OnAccount;
             }

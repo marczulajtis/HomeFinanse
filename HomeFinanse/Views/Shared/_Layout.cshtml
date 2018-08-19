@@ -1,24 +1,31 @@
-﻿@using System.Web.Optimization;
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
 
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+
     @Scripts.Render("~/bundles/jquery")
+
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
     @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/bootstrap")
-    
+
     <script type="text/javascript" src="~/scripts/datepicker.js"></script>
     <script type="text/javascript" src="~/scripts/menu_manipulation.js"></script>
+
+    <script type="text/javascript" src="~/scripts/canvasjs.min.js"></script>
 
     @Scripts.Render("~/bundles/modernizr")
 
     @Scripts.Render("~/admin-lte/js")
 
-    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Content/Site.css" />
 
     @Styles.Render("~/Content/css")
 
@@ -27,14 +34,35 @@
     <!-- Ionicons -->
     @*<link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">*@
 
-    
+
     @section scripts {
         <!-- We would add slider scripts here -->
-    }
+        <script>
+            $(document).ready(function () {
+                $('.date').datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    showButtonPanel: true,
+                    yearRange: "-100:+0",
+                    dateFormat: 'dd/mm/yy'
+                });
+            });
+        </script>
+
+    <script>
+          $('.updateOutcomeDate').change(function() {
+            $.ajax({
+              url:"@Html.Raw(Url.Action("UpdateOutcomeDate", new { contoller = "Outcome", area = "Outcomes" }))",
+              data: {Name: $(this).val()},
+            });
+          });
+    </script>
+}
 </head>
 <body>
     @RenderBody()
 
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

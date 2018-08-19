@@ -13,7 +13,7 @@ namespace HomeFinanse.Areas.Periods.Models
         private Nullable<DateTime> nullableEndDate = DateTime.Now;
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:DD-MM-YYYY}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<DateTime> NullableStartDate
         {
             get
@@ -32,7 +32,7 @@ namespace HomeFinanse.Areas.Periods.Models
         }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:DD-MM-YYYY}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<DateTime> NullableEndDate
         {
             get

@@ -9,15 +9,27 @@ namespace HomeFinanse.Models
     {
         public static bool UserIsValid(UserViewModel UVmodel)
         {
-            User loginUser = UVmodel.GetUserDataToCompare();
+            string decrypted = string.Empty;
 
-            string decrypted = RijndaelEncryption.DecryptRijndael(loginUser.Password, loginUser.Salt);
-
-            if (decrypted == UVmodel.LoginUser.Password)
+            try
             {
-                return true;
-            }
+                if (UVmodel != null)
+                {
+                    User loginUser = UVmodel.GetUserDataToCompare();
 
+                    decrypted = RijndaelEncryption.DecryptRijndael(loginUser.Password, loginUser.Salt);
+
+                    if (decrypted == UVmodel.LoginUser.Password)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // to do
+            }
+                
             return false;
         }
     }

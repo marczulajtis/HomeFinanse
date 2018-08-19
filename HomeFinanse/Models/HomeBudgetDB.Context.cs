@@ -12,6 +12,8 @@ namespace HomeFinanse.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class HomeBudgetDBEntities : DbContext
     {
@@ -30,5 +32,21 @@ namespace HomeFinanse.Models
         public virtual DbSet<Outcome> Outcomes { get; set; }
         public virtual DbSet<Period> Periods { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Incomes_by_category> Incomes_by_category { get; set; }
+        public virtual DbSet<Outcomes_by_category> Outcomes_by_category { get; set; }
+        public virtual DbSet<Summary> Summaries { get; set; }
+    
+        public virtual ObjectResult<get_period_summary_Result> get_period_summary(Nullable<int> periodID, Nullable<bool> planned)
+        {
+            var periodIDParameter = periodID.HasValue ?
+                new ObjectParameter("periodID", periodID) :
+                new ObjectParameter("periodID", typeof(int));
+    
+            var plannedParameter = planned.HasValue ?
+                new ObjectParameter("planned", planned) :
+                new ObjectParameter("planned", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<get_period_summary_Result>("get_period_summary", periodIDParameter, plannedParameter);
+        }
     }
 }

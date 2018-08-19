@@ -76,12 +76,8 @@ namespace HomeFinanse.Areas.Categories.Controllers
         {
             return PartialView(this.context.Categories.ToList());
         }
-
-        //public ActionResult DeleteCategory()
-        //{
-        //    return View("ShowCategories");
-        //}
-
+        
+        [HttpDelete]
         public ActionResult DeleteCategory(int categoryID)
         {
             if (this.context != null)
@@ -94,13 +90,13 @@ namespace HomeFinanse.Areas.Categories.Controllers
                     this.context.Categories.Remove(categoryToDelete);
                     this.context.SaveChanges();
                 }
-
-                return View("ShowCategories", this.context.Categories.ToList());
+            }
+            else
+            {
+                this.ModelState.AddModelError("", "No database data loaded.");
             }
 
-            this.ModelState.AddModelError("", "No database data loaded.");
-
-            return View("ShowCategories");
+            return PartialView("CategoriesTable", this.context.Categories);
         }
 
         public ActionResult EditCategory(int categoryID)

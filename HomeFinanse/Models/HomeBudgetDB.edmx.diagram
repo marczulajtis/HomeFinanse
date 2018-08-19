@@ -9,11 +9,14 @@
         <EntityTypeShape EntityType="HomeBudgetDBModel.Income" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
         <EntityTypeShape EntityType="HomeBudgetDBModel.Outcome" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
         <EntityTypeShape EntityType="HomeBudgetDBModel.Period" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <AssociationConnector Association="HomeBudgetDBModel.FK__Incomes__Categor__239E4DCF" ManuallyRouted="false" />
         <AssociationConnector Association="HomeBudgetDBModel.FK_Outcomes_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="HomeBudgetDBModel.FK_Incomes_Period" ManuallyRouted="false" />
         <AssociationConnector Association="HomeBudgetDBModel.FK_Outcomes_Period" ManuallyRouted="false" />
         <EntityTypeShape EntityType="HomeBudgetDBModel.User" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Incomes_by_category" Width="1.5" PointX="3.375" PointY="7.75" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Outcomes_by_category" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Summary" Width="1.5" PointX="3" PointY="10.875" />
+        <AssociationConnector Association="HomeBudgetDBModel.FK_Summary_Period" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

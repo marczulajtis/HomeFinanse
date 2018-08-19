@@ -38,30 +38,11 @@ namespace HomeFinanse.Areas.Incomes.Models
         }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:DD-MM-YYYY}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime IncomeDate
         {
             get;
             set;
-        }
-
-        public List<Category> Categories
-        {
-            get
-            {
-                if (this.context != null)
-                {
-                    if (this.context.Categories != null)
-                    {
-                        if (this.context.Categories.ToList().Count > 0)
-                        {
-                            return this.context.Categories.ToList();
-                        }
-                    }
-                }
-
-                return new List<Category>();
-            }
         }
         
         public List<Period> Periods
@@ -95,8 +76,5 @@ namespace HomeFinanse.Areas.Incomes.Models
                 newIncome = value;
             }
         }
-
-        //[Required(ErrorMessage = "Category is required.")]
-        //public SelectListItem SelectedCategory { get; set; }
     }
 }

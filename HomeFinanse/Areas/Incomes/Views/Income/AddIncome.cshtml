@@ -22,8 +22,6 @@
 {
     if (Model != null)
     {
-        if (Model.Categories != null)
-        {
             <div class="box box-primary">
                 <form role="form">
                     <div class="box-body">
@@ -41,18 +39,8 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                @Html.TextBoxFor(model => model.NewIncome.IncomeDate, new { @id = "datepicker1", @class = "form-control" })
+                                @Html.EditorFor(model => model.NewIncome.IncomeDate, new { @class = "form-control date" })
                             </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        @Html.DropDownListFor(model => model.NewIncome.CategoryID,
-                              new SelectList(Model.Categories, "CategoryID", "CategoryName"),
-                              new { @class = "form-control", style = "width: 100%;" })
-                        </div>
-                    <div class="form-group">
-                        <label>Place</label>
-                        @Html.EditorFor(model => model.NewIncome.Place, new { htmlAttributes = new { @class = "form-control" } })
                     </div>
                     <div class="form-group">
                         <label>Period</label>
@@ -71,6 +59,5 @@
             </div>
         </form>
     </div>
-        }
     }
 }

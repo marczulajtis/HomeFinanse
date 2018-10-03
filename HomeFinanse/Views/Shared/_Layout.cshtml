@@ -27,15 +27,11 @@
     @Scripts.Render("~/admin-lte/js")
 
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
-    @*<link rel="stylesheet" href="~/Content/Site.css" />*@
 
     @Styles.Render("~/Content/css")
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/Content/font-awesome.min.css">
-    <!-- Ionicons -->
-    @*<link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.min.css">*@
-
 
     @section scripts {
         <!-- We would add slider scripts here -->
@@ -50,22 +46,7 @@
                 });
             });
         </script>
-
-    <script>
-          $('.updateOutcomeDate').change(function() {
-            $.ajax({
-              url:"@Html.Raw(Url.Action("UpdateOutcomeDate", new { contoller = "Outcome", area = "Outcomes" }))",
-              data: {Name: $(this).val()},
-            });
-          });
-        $('.updateIncomeDate').change(function() {
-            $.ajax({
-                url:"@Html.Raw(Url.Action("UpdateIncomeDate", new { contoller = "Income", area = "Incomes" }))",
-                data: {Name: $(this).val()},
-                });
-        });
-    </script>
-}
+        }
 </head>
 <body>
     @RenderBody()

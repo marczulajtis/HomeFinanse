@@ -1,4 +1,8 @@
-﻿function LoadSummaryOnAppStart() {
+﻿function ChangeBodyColor() {
+    $('body').addClass('whiteBackground');
+};
+
+function LoadSummaryOnAppStart() {
     $.get('/Home/Summary', { selectedPeriodID: $("#periodsDropdown").val() }, function (data) {
         $("#myContentView").html(data);
     });
@@ -133,3 +137,17 @@ $(function () {
         });
     });
 });
+
+
+//$('.updateOutcomeDate').change(function() {
+//    $.ajax({
+//        url:"@Html.Raw(Url.Action(UpdateOutcomeDate, new { contoller = "Outcome", area = "Outcomes" }))",
+//        data: {Name: $(this).val()},
+//        });
+//});
+//$('.updateIncomeDate').change(function() {
+//    $.ajax({
+//        url:"@Html.Raw(Url.Action("UpdateIncomeDate", new { contoller = "Income", area = "Incomes" }))",
+//        data: {Name: $(this).val()},
+//        });
+//});

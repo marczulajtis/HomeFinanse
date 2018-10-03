@@ -5,14 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-</script>
-
 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
     <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" onclick="LoadSummary();">Dashboard</a>
+    <div class="row">
+                <div style="margin-left: 15px; color: white;" class="col-xs-2 col-lg-2 col-md-2">
+                    <h3>Home Finanse</h3>
+                </div>
+        <div class="input-group center-control col-xs-8 col-md-9 col-lg-9" style="margin-top: 10px;">
+            @Html.LabelFor(model => model.SelectedPeriodID, "Current period", new { @class = "control-label input-group-addon", style = "width: 100px;" })
+
+            @Html.DropDownListFor(model => model.SelectedPeriodID, Model.Periods, new { @class = "form-control", id = "periodsDropdown", @onchange = "SetCurrentPeriod();", @onload = "SetCurrentPeriod();", style = "height: 35px; width: 120px;" })
+        </div>
+    </div>
 </nav>
 
 <div class="container-fluid">
@@ -39,43 +45,15 @@
 
         <main class="col-sm-7 col-md-8">
 
-            <div class="row">
-                <div class="input-group col-xs-4">
-                    @Html.LabelFor(model => model.SelectedPeriodID, "Current period", new { @class = "control-label input-group-addon", style = "width: 100px;" })
-
-                    @Html.DropDownListFor(model => model.SelectedPeriodID, Model.Periods, new { @class = "form-control", id = "periodsDropdown", @onchange = "SetCurrentPeriod();", @onload = "SetCurrentPeriod();" })
-                </div>
-            </div>
-
             <div class="row" id="myContentView">
                 <!-- main content loading in here-->
+                <!-- Load start content and change body background -->
                 <script type="text/javascript">
                     LoadSummaryOnAppStart();
+
+                    ChangeBodyColor();
                 </script>
             </div>
-                @*<section class="row text-center placeholders">
-                    <div class="col-6 col-sm-3 placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                        <h4>Incomes</h4>
-                        <div class="text-muted">Something else</div>
-                    </div>
-                    <div class="col-6 col-sm-3 placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                        <h4>Label</h4>
-                        <span class="text-muted">Something else</span>
-                    </div>
-                    <div class="col-6 col-sm-3 placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                        <h4>Label</h4>
-                        <span class="text-muted">Something else</span>
-                    </div>
-                    <div class="col-6 col-sm-3 placeholder">
-                        <img src="data:image/gif;base64,R0lGODlhAQABAIABAADcgwAAACwAAAAAAQABAAACAkQBADs=" width="200" height="200" class="img-fluid rounded-circle" alt="Generic placeholder thumbnail">
-                        <h4>Label</h4>
-                        <span class="text-muted">Something else</span>
-                    </div>
-                </section>*@
-
-            </main>
-        </div>
+        </main>
     </div>
+</div>

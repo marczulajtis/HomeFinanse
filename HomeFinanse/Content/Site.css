@@ -22,3 +22,33 @@
 .custom-dropdown-height {
     height: 34px;
 }
+
+.navbar {
+    margin-bottom: 0;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.nav {    
+    margin-top: 20px;
+}
+.margin-top {    
+    margin-top: 15px;
+}
+
+.center-control {
+    margin: 0 auto;
+}
+
+.whiteBackground {
+    background: #fff;
+}
+
+.h3 {
+    margin-left: 15px; 
+    color: white;
+    margin-top: 14px; 
+}

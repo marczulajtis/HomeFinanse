@@ -29,15 +29,7 @@
 <div id="outcomesView" style="margin: 10%">
     <div style="clear: both"></div>
     <h3>Outcomes</h3>
-
-    <div class="row">
-        <div class="input-group col-xs-4 col-md-4">
-            @Html.LabelFor(model => model.SelectedPeriodID, "Current period", new { @class = "control-label input-group-addon", style = "width: 100px;" })
-
-            @Html.DropDownListFor(model => model.SelectedPeriodID, Model.PeriodsSelectList, new { @class = "form-control", id = "periodsDropdownInOutcomes", @onchange = "ShowOutcomes();", style = "height: 34px;" })
-        </div>
-    </div>
-
+    
     <div class="col-lg-4 col-md-4 col-xs-12">
         @{
             Html.RenderPartial("AddOutcome");

@@ -14,3 +14,11 @@
 .validation-summary-errors {
     list-style-type: none;
 }
+
+.white-backround {
+    background: white;
+}
+
+.custom-dropdown-height {
+    height: 34px;
+}

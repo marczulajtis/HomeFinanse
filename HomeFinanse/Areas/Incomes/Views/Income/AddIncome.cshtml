@@ -39,21 +39,21 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                @Html.EditorFor(model => model.NewIncome.IncomeDate, new { @class = "form-control date" })
+                                @Html.TextBoxFor(model => model.NewIncome.IncomeDate, new { @class = "form-control date" })
                             </div>
                     </div>
                     <div class="form-group">
                         <label>Period</label>
                             @Html.DropDownListFor(model => model.NewIncome.PeriodID,
                               new SelectList(Model.Periods, "PeriodID", "PeriodName"),
-                              new { @class = "form-control", style = "width: 100%;" })
+                              new { @class = "form-control", style = "width: 100%; height: 34px;" })
                     </div>
-                    <div class="form-group">
-                        <label>On Account</label>
-                        <div class="icheckbox_flat-green">
-                            @Html.CheckBoxFor(model => model.NewIncome.OnAccount, new { htmlAttributes = new { @class = "flat-red" } })
+                        <div class="form-check">
+                            @Html.CheckBoxFor(model => model.NewIncome.OnAccount, new { id = "defaultCheck1" } )
+                            <label class="form-check-label" for="defaultCheck1">
+                                On Account
+                            </label>
                         </div>
-                    </div>
 
                 <input type="submit" value="Add income" class="btn btn-primary btn-block btn-flat" />
             </div>

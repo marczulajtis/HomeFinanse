@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HomeFinanse.Areas.Incomes.Models
@@ -18,23 +17,29 @@ namespace HomeFinanse.Areas.Incomes.Models
         {
         }
 
-        public IncomeViewModel(HomeBudgetDBEntities context, Income model)
+        public IncomeViewModel(HomeBudgetDBEntities context, Income model, int selectedPeriodID)
         {
             this.context = context;
             this.newIncome = model;
+            this.SelectedPeriodID = selectedPeriodID;
         }
-
+        
         public List<Income> Incomes
         {
             get
             {
                 if (this.context != null)
                 {
-                    return this.context.Incomes.ToList();
+                    return this.context?.Incomes?.Where(i => i.PeriodID == this.SelectedPeriodID)?.ToList();
                 }
 
                 return new List<Income>();
             }
+        }
+
+        public int SelectedPeriodID
+        {
+            get; private set;
         }
 
         [DataType(DataType.Date)]
@@ -75,6 +80,27 @@ namespace HomeFinanse.Areas.Incomes.Models
             {
                 newIncome = value;
             }
+        }
+
+
+        public List<SelectListItem> PeriodsSelectList
+        {
+            get { return this.GetPeriods(); }
+        }
+
+        private List<SelectListItem> GetPeriods()
+        {
+            var list = new List<SelectListItem>();
+
+            if (context?.Periods != null)
+            {
+                foreach (var period in context?.Periods)
+                {
+                    list.Add(new SelectListItem { Text = period.PeriodName, Value = period.PeriodID.ToString() });
+                }
+            }
+
+            return list;
         }
     }
 }

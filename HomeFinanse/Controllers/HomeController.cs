@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -46,26 +47,37 @@ namespace HomeFinanse.Controllers
 
         public ActionResult Dashboard()
         {
-            this.mainViewModel = new MainViewModel(this.context);
+            this.mainViewModel = new MainViewModel(this.context, null);
 
             return View(this.mainViewModel);
+        }
+        
+        [HttpGet]
+        public void UpdateSelectedPeriod(int selectedPeriodID)
+        {
+            Session["SelectedPeriodID"] = selectedPeriodID;
         }
 
 
         [HttpGet]
-        public ActionResult Summary()
+        public ActionResult Summary(int selectedPeriodID)
         {
-            return View(new MainViewModel(this.context));
+            return View(new MainViewModel(this.context, selectedPeriodID.ToString()));
         }
 
         [HttpPost]
-        public ActionResult Summary(int SeletedPeriodID, int OnAccount, int PerMonth)
+        public ActionResult SetSelectedPeriodID(int selectedPeriodID)
         {
-            MainViewModel vm = new Models.MainViewModel(this.context);
-            vm.PerMonth = PerMonth;
-            vm.SelectedPeriodID = SeletedPeriodID.ToString();
-            vm.OnAccount = OnAccount;
+            Session["SelectedPeriodID"] = selectedPeriodID;
 
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        public ActionResult Summary()
+        {
+
+            MainViewModel vm = new MainViewModel(this.context, Session["SelectedPeriodID"]?.ToString());
             return View(vm);
         }
     }

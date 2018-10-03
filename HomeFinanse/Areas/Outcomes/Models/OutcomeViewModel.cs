@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace HomeFinanse.Areas.Outcomes.Models
 {
@@ -11,14 +12,16 @@ namespace HomeFinanse.Areas.Outcomes.Models
     {
         private HomeBudgetDBEntities context;
         private OutcomeNotNullable newOutcome = new OutcomeNotNullable();
+        private string selectedPeriodID;
 
         public OutcomeViewModel()
         { }
 
-        public OutcomeViewModel(HomeBudgetDBEntities context, OutcomeNotNullable newOutcome)
+        public OutcomeViewModel(HomeBudgetDBEntities context, OutcomeNotNullable newOutcome, int newSelectedPeriodID)
         {
             this.context = context;
             this.newOutcome = newOutcome;
+            this.SelectedPeriodID = newSelectedPeriodID;
         }
 
         [DataType(DataType.Date)]
@@ -35,7 +38,9 @@ namespace HomeFinanse.Areas.Outcomes.Models
             {
                 if (this.context != null)
                 {
-                    return this.context.Outcomes.ToList();
+                    int periodID = Convert.ToInt32(this.SelectedPeriodID);
+
+                    return this.context.Outcomes.Where(o => o.PeriodID == periodID).ToList();
                 }
 
                 return new List<Outcome>();
@@ -79,6 +84,32 @@ namespace HomeFinanse.Areas.Outcomes.Models
             {
                 newOutcome = value;
             }
+        }
+
+        public int SelectedPeriodID
+        {
+            get; set;
+
+        }
+
+        public List<SelectListItem> PeriodsSelectList
+        {
+            get { return this.GetPeriods(); }
+        }
+
+        private List<SelectListItem> GetPeriods()
+        {
+            var list = new List<SelectListItem>();
+
+            if (context?.Periods != null)
+            {
+                foreach (var period in context?.Periods)
+                {
+                    list.Add(new SelectListItem { Text = period.PeriodName, Value = period.PeriodID.ToString() });
+                }
+            }
+
+            return list;
         }
     }
 }

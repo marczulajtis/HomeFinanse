@@ -22,7 +22,7 @@ namespace HomeFinanse
                         "~/scripts/moment.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                        "~/scripts/bootstrap.min.js",
+                        //"~/scripts/bootstrap.min.js",
                         "~/scripts/bootstrap-datetimepicker.min.js"));
 
             //bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -34,18 +34,18 @@ namespace HomeFinanse
                         "~/scripts/modernizr-*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/site.css",
-                      "~/admin-lte/css/AdminLTE.css",
-                      "~/admin-lte/css/skins/skin-blue.css",
-                      "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
-                      "~/Content/Login.css"
+                      "~/Content/site.css"
+                      //"~/admin-lte/css/AdminLTE.css",
+                      //"~/admin-lte/css/skins/skin-blue.css",
+                      //"~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css",
+                      //"~/Content/Login.css"
                       ));
 
             bundles.Add(new ScriptBundle("~/admin-lte/js").Include(
-                    "~/admin-lte/js/adminlte.js",
-                    "~/admin-lte/plugins/fastclick/fastclick.js",
-                    "~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js",
-                    "~/scripts/login.js",
+                    //"~/admin-lte/js/adminlte.js",
+                    //"~/admin-lte/plugins/fastclick/fastclick.js",
+                    //"~/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js",
+                    //"~/scripts/login.js",
                     "~/scripts/custom.js"
                 ));
             
@@ -77,6 +77,7 @@ namespace HomeFinanse
         private void RegisterServices(IKernel kernel)
         {
             kernel.Bind<HomeBudgetDBEntities>().ToSelf();
+            kernel.Bind<MainViewModel>().ToSelf();
         }
 
         protected override void OnApplicationStarted()

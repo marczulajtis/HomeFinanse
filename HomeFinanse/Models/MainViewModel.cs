@@ -7,25 +7,20 @@ namespace HomeFinanse.Models
 {
     public class MainViewModel
     {
-        private static HomeBudgetDBEntities dbContext;
+        private HomeBudgetDBEntities dbContext;
 
         private string selectedPeriodID;
 
         private int onAccount;
         private int shouldBe;
 
-        public MainViewModel(HomeBudgetDBEntities context)
+        public MainViewModel(HomeBudgetDBEntities context, string selectedPeriodIDParam)
         {
             dbContext = context;
-            this.SelectedPeriodID = context?.Periods?.FirstOrDefault()?.PeriodID.ToString();
+            this.SelectedPeriodID = selectedPeriodIDParam != null ? selectedPeriodIDParam : context?.Periods?.FirstOrDefault().PeriodID.ToString();
         }
-
-        public Summary CurrentSummary
-        {
-            get { return this.GetCurrentSummary(); }
-        }
-
-        public int Difference
+        
+        public decimal Difference
         {
             get { return this.ShouldBe - this.onAccount; } 
         }
@@ -36,10 +31,12 @@ namespace HomeFinanse.Models
             set { this.onAccount = value; }
         }
 
-        public int ShouldBe
+        public decimal ShouldBe
         {
-            get {
-                return (int)this.TotalIncome - this.TotalPayedOutcome; }
+            get
+            {
+                return this.TotalIncomeOnAccount - this.TotalPayedOutcome;
+            }
         }
 
         public List<Outcomes_by_category> OutcomesByCategoryView
@@ -70,12 +67,12 @@ namespace HomeFinanse.Models
             get { return this.GetPeriods(); }
         }
 
-        public int TotalOutcome
+        public decimal TotalOutcome
         {
             get { return this.GetTotalOutcome(); }
         }
 
-        public int TotalIncome
+        public decimal TotalIncome
         {
             get { return this.GetTotalIncome(); }
         }
@@ -85,29 +82,54 @@ namespace HomeFinanse.Models
             get; set;
         }
 
-        public int TotalPayedOutcome
+        public decimal TotalIncomeOnAccount
         {
-            get { return (int)dbContext?.Outcomes?.Where(outcome => outcome.Payed == true)?.Sum(outcome => outcome.Value); }
+            get
+            {
+                int periodID = Convert.ToInt32(this.selectedPeriodID);
+
+                var incomes = dbContext?.Incomes?.Where(i => i.PeriodID == periodID && i.OnAccount == true);
+
+                var incomesTotal = incomes.Count() > 0 ? incomes.Sum(income => income.Value) : 0;
+
+                return Convert.ToDecimal(incomesTotal);
+            }
         }
 
-        private int GetTotalIncome()
+        public decimal TotalPayedOutcome
         {
-            var incomesTotal = dbContext?.Incomes?.Where(i => i.OnAccount == true)?.Sum(income => (decimal?)income.Value);
+            get
+            {
+                int periodID = Convert.ToInt32(this.selectedPeriodID);
 
-            if (incomesTotal != null)
-                return (int)incomesTotal;
+                var payedOutcomes = dbContext?.Outcomes?.Where(outcome => outcome.Payed == true && outcome.PeriodID == periodID);
 
-            return 0;
+                var totalPayedOutcome = payedOutcomes.Count() > 0 ? payedOutcomes.Sum(outcome => outcome.Value) : 0;
+
+                return totalPayedOutcome;
+            }
         }
 
-        private int GetTotalOutcome()
+        private decimal GetTotalIncome()
         {
-            var outcomesTotal = dbContext?.Outcomes?.Sum(outcome => (decimal?)outcome.Value);
+            int periodID = Convert.ToInt32(this.selectedPeriodID);
+            
+            var incomes = dbContext?.Incomes?.Where(i => i.PeriodID == periodID);
+            
+            var incomesTotal = incomes.Count() > 0 ? incomes.Sum(income => income.Value) : 0;
 
-            if (outcomesTotal != null)
-                return (int)outcomesTotal;
+            return Convert.ToDecimal(incomesTotal);
+        }
 
-            return 0;
+        private decimal GetTotalOutcome()
+        {
+            int periodID = Convert.ToInt32(this.selectedPeriodID);
+
+            var outcomes = dbContext?.Outcomes?.Where(o => o.PeriodID == periodID);
+
+            var outcomesTotal = outcomes.Count() > 0 ? outcomes.Sum(outcome => outcome.Value) : 0;
+
+            return Convert.ToDecimal(outcomesTotal);
         }
 
         private List<Outcomes_by_category> GetOutcomesByCategoryView()
@@ -130,13 +152,6 @@ namespace HomeFinanse.Models
             }
 
             return list;
-        }
-
-        private Summary GetCurrentSummary()
-        {
-            int periodID = Convert.ToInt32(this.selectedPeriodID);
-
-            return dbContext?.Summaries?.Where(sum => sum.PeriodID == periodID).SingleOrDefault();
         }
     }
 }

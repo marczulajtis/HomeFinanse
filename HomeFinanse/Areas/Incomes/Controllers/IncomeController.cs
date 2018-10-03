@@ -17,15 +17,19 @@ namespace HomeFinanse.Areas.Incomes.Controllers
             this.context = context;
         }
 
+        public int SelectedPeriodID { get; private set; }
+
         [HttpGet]
         public ActionResult ShowIncomes()
         {
-            return View(new IncomeViewModel(this.context, new Income()));
+            this.SelectedPeriodID = Convert.ToInt32(Session["SelectedPeriodID"]);
+
+            return View(new IncomeViewModel(this.context, new Income(), this.SelectedPeriodID));
         }
                 
         public ActionResult AddIncome()
         {
-            return View(new IncomeViewModel(this.context, new Income()));
+            return View(new IncomeViewModel(this.context, new Income(), this.SelectedPeriodID));
         }
 
         [HttpPost]
@@ -81,7 +85,26 @@ namespace HomeFinanse.Areas.Incomes.Controllers
         [HttpGet]
         public ActionResult IncomesSummary()
         {
-            return View(new MainViewModel(this.context));
+            return View(new MainViewModel(this.context, null));
+        }
+
+        public ActionResult UpdateIncomeDate(int incomeID)
+        {
+            var income = this.context?.Incomes?.Where(o => o.ID == incomeID).SingleOrDefault();
+
+            try
+            {
+                income.IncomeDate = DateTime.Now;
+                income.OnAccount = true;
+
+                this.context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError("UpdateIncomeDateError", string.Format("Income date update error: {0}", ex.Message));
+            }
+
+            return View("IncomesTable", this.context?.Incomes?.Where(o => o.PeriodID == income.PeriodID));
         }
 
         /// <summary>

@@ -10,9 +10,9 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
 {
     public class OutcomeController : Controller
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
         
-        public OutcomeController(HomeBudgetDBEntities context)
+        public OutcomeController(HomeBudgetDBEntities1 context)
         {
             this.context = context;
         }
@@ -22,7 +22,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
         [HttpGet]
         public ActionResult ShowOutcomes()
         {
-            return View(new OutcomeViewModel(context, new OutcomeNotNullable(), Convert.ToInt32(Session["SelectedPeriodID"])));
+            return PartialView(new OutcomeViewModel(context, new OutcomeNotNullable(), Convert.ToInt32(Session["SelectedPeriodID"])));
         }
 
         public ActionResult AddOutcome()
@@ -70,7 +70,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 this.ModelState.AddModelError("OutcomeAddingError", "Something went wrong when adding outcome. Try again.");
             }
 
-            return View("OutcomesTable", this.context?.Outcomes.Where(o => o.PeriodID == model.NewOutcome.PeriodID));
+            return PartialView("OutcomesTable", this.context?.Outcomes.Where(o => o.PeriodID == model.NewOutcome.PeriodID));
         }
 
         private Outcome CreateNewOutcome(OutcomeViewModel model)
@@ -119,7 +119,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
             // outcomes for curently selected period
             var outcomes = this.context?.Outcomes?.Where(o => o.PeriodID == outcomeToDelete.PeriodID);
 
-            return View("OutcomesTable", outcomes);
+            return PartialView("OutcomesTable", outcomes);
         }
 
         public ActionResult UpdateOutcomeDate(int outcomeID)
@@ -138,7 +138,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 this.ModelState.AddModelError("UpdateOutcomeDateError", string.Format("Outcome date update error: {0}", ex.Message));
             }
 
-            return View("OutcomesTable", this.context?.Outcomes?.Where(o => o.PeriodID == outcome.PeriodID));
+            return PartialView("OutcomesTable", this.context?.Outcomes?.Where(o => o.PeriodID == outcome.PeriodID));
         }
 
         public static bool DateNowIsBetween(DateTime date1, DateTime date2)

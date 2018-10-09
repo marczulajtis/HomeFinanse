@@ -4,19 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e78eab1bfa4d4a9a9121d3dd23356778" Name="Diagram1">
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Category" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Income" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Outcome" Width="1.5" PointX="6" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Period" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+      <Diagram DiagramId="dfc1c09671a14abfa61255e95eefe2f0" Name="Diagram1">
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Category" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Income" Width="1.5" PointX="5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Outcome" Width="1.5" PointX="8" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Period" Width="1.5" PointX="2.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Summary" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.User" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Incomes_by_category" Width="1.5" PointX="2.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HomeBudgetDBModel.Outcomes_by_category" Width="1.5" PointX="4.75" PointY="7.125" IsExpanded="true" />
         <AssociationConnector Association="HomeBudgetDBModel.FK_Outcomes_Categories" ManuallyRouted="false" />
         <AssociationConnector Association="HomeBudgetDBModel.FK_Incomes_Period" ManuallyRouted="false" />
         <AssociationConnector Association="HomeBudgetDBModel.FK_Outcomes_Period" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.User" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Incomes_by_category" Width="1.5" PointX="3.375" PointY="7.75" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Outcomes_by_category" Width="1.5" PointX="3.375" PointY="0.75" />
-        <EntityTypeShape EntityType="HomeBudgetDBModel.Summary" Width="1.5" PointX="3" PointY="10.875" />
-        <AssociationConnector Association="HomeBudgetDBModel.FK_Summary_Period" />
+        <AssociationConnector Association="HomeBudgetDBModel.FK_Summary_Summary" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

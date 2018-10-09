@@ -9,7 +9,7 @@ namespace HomeFinanse.Areas.Incomes.Models
 {
     public class IncomeViewModel
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
 
         private Income newIncome = new Income();
 
@@ -17,7 +17,7 @@ namespace HomeFinanse.Areas.Incomes.Models
         {
         }
 
-        public IncomeViewModel(HomeBudgetDBEntities context, Income model, int selectedPeriodID)
+        public IncomeViewModel(HomeBudgetDBEntities1 context, Income model, int selectedPeriodID)
         {
             this.context = context;
             this.newIncome = model;

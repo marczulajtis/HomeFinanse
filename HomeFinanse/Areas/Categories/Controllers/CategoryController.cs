@@ -10,9 +10,9 @@ namespace HomeFinanse.Areas.Categories.Controllers
 {
     public class CategoryController : Controller
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
 
-        public CategoryController(HomeBudgetDBEntities context)
+        public CategoryController(HomeBudgetDBEntities1 context)
         {
             this.context = context;
         }
@@ -108,7 +108,7 @@ namespace HomeFinanse.Areas.Categories.Controllers
                 cat = this.context.Categories.Where(X => X.CategoryID == categoryID).SingleOrDefault();
             }
 
-            return View(cat);
+            return PartialView(cat);
         }
 
         public ActionResult GetCategoryDetailsForModal(int categoryID)
@@ -123,7 +123,7 @@ namespace HomeFinanse.Areas.Categories.Controllers
                 }
             }
 
-            return View("EditCategory", categoryDetails);
+            return PartialView("EditCategory", categoryDetails);
         }
 
         [HttpPost]
@@ -144,7 +144,7 @@ namespace HomeFinanse.Areas.Categories.Controllers
 
             this.ModelState.AddModelError("", "No categories found.");
 
-            return View("ShowCategories");
+            return PartialView("ShowCategories");
         }
 
         [HttpPost]

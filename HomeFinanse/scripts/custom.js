@@ -1,4 +1,15 @@
-﻿function ChangeBodyColor() {
+﻿
+//$(document).ready(function () {
+//    $('.date').datepicker({
+//        changeMonth: true,
+//        changeYear: true,
+//        showButtonPanel: true,
+//        yearRange: "-100:+0",
+//        dateFormat: 'dd/mm/yy'
+//    });
+//});
+
+function ChangeBodyColor() {
     $('body').addClass('whiteBackground');
 };
 
@@ -22,10 +33,13 @@ function SetCurrentPeriod() {
     });
 
     if ($("#overviewLink").hasClass("active")) {
-        LoadSummary();
+        LoadSummaryOnAppStart();
     }
     else if ($('#incomesLink').hasClass("active")) {
         $('#incomesLink').trigger("click");
+    }
+    else if ($('#outcomesLink').hasClass("active")) {
+        $('#outcomesLink').trigger("click");
     }
 };
 
@@ -49,16 +63,20 @@ function OnChangeEvent() {
     }
     else {
         var abs_difference = Math.abs(difference);
-        var bilans = totalIncome - totalOutcome - abs_difference;
+        var bilans1 = totalIncome - totalOutcome - abs_difference;
 
         $('#differenceLabel').text = "Brakuje :";
 
-        if (bilans < 0)
+        if (bilans < 0) {
             $('#PerMonth').addClass('label-danger');
-        else
+            $('#PerMonth').removedClass('label-success');
+        }
+        else {
             $('#PerMonth').addClass('label-success');
+            $('#PerMonth').removeClass('label-danger');
+        }
         
-        $('#PerMonth').val(bilans.toString());
+        $('#PerMonth').val(bilans1.toString());
     }
 
 };

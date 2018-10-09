@@ -8,9 +8,9 @@ namespace HomeFinanse.Areas.Periods.Controllers
 {
     public class PeriodController : Controller
     {
-        private HomeBudgetDBEntities _context;
+        private HomeBudgetDBEntities1 _context;
 
-        public PeriodController(HomeBudgetDBEntities context)
+        public PeriodController(HomeBudgetDBEntities1 context)
         {
             this._context = context;
         }
@@ -31,7 +31,7 @@ namespace HomeFinanse.Areas.Periods.Controllers
                 }));
             }
 
-            return View(new PeriodViewModel(this._context, new PeriodModel()));
+            return PartialView(new PeriodViewModel(this._context, new PeriodModel()));
         }
 
         [HttpPost]
@@ -60,7 +60,7 @@ namespace HomeFinanse.Areas.Periods.Controllers
                 }
             }
 
-            return View("PeriodsTable", this._context.Periods);
+            return PartialView("PeriodsTable", this._context.Periods);
         }
 
         private bool PeriodAlreadyExists(PeriodModel period)
@@ -78,7 +78,7 @@ namespace HomeFinanse.Areas.Periods.Controllers
         [HttpGet]
         public ActionResult ShowPeriods()
         {
-            return View(new PeriodViewModel(this._context, new PeriodModel()));
+            return PartialView(new PeriodViewModel(this._context, new PeriodModel()));
         }
 
         [HttpDelete]

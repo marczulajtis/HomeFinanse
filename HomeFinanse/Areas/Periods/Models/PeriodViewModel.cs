@@ -8,14 +8,14 @@ namespace HomeFinanse.Areas.Periods.Models
 {
     public class PeriodViewModel
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
         private Period selectedPeriod = new Period();
         private PeriodModel newPeriod;
 
         public PeriodViewModel()
         { }
 
-        public PeriodViewModel(HomeBudgetDBEntities context, PeriodModel newPeriod)
+        public PeriodViewModel(HomeBudgetDBEntities1 context, PeriodModel newPeriod)
         {
             this.context = context;
             this.newPeriod = newPeriod;

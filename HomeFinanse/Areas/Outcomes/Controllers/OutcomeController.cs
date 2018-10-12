@@ -17,12 +17,12 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
             this.context = context;
         }
 
-        public int SelectedPeriodID { get; private set; }
+        public int SelectedPeriodID => Convert.ToInt32(Session["SelectedPeriodID"]);
 
         [HttpGet]
         public ActionResult ShowOutcomes()
         {
-            return PartialView(new OutcomeViewModel(context, new OutcomeNotNullable(), Convert.ToInt32(Session["SelectedPeriodID"])));
+            return PartialView(new OutcomeViewModel(context, new OutcomeNotNullable(), this.SelectedPeriodID));
         }
 
         public ActionResult AddOutcome()
@@ -45,7 +45,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 }, this.SelectedPeriodID));
             }
 
-            return View(new OutcomeViewModel(this.context, new OutcomeNotNullable(), this.SelectedPeriodID));
+            return PartialView(new OutcomeViewModel(this.context, new OutcomeNotNullable(), this.SelectedPeriodID));
         }
 
         [HttpPost]
@@ -57,6 +57,8 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 {
                     if (model.NewOutcome != null)
                     {
+                        model.NewOutcome.PeriodID = this.SelectedPeriodID;
+
                         // add new income to db
                         this.context?.Outcomes?.Add(this.CreateNewOutcome(model));
                         this.context?.SaveChanges();

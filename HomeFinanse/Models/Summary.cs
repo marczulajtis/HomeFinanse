@@ -15,12 +15,9 @@ namespace HomeFinanse.Models
     public partial class Summary
     {
         public int SummaryID { get; set; }
-        public int PeriodID { get; set; }
-        public Nullable<decimal> OnAccount { get; set; }
-        public Nullable<decimal> ShouldBe { get; set; }
-        public Nullable<decimal> Difference { get; set; }
-        public Nullable<decimal> PerMonth { get; set; }
+        public string SelectedPeriodID { get; set; }
     
-        public virtual Period Period { get; set; }
+        public virtual Summary Summary1 { get; set; }
+        public virtual Summary Summary2 { get; set; }
     }
 }

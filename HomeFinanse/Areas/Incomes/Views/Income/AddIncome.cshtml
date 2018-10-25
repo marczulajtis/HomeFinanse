@@ -18,7 +18,7 @@
 
 @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
-@using (Ajax.BeginForm("AddIncome", "Income", new { area = "Incomes" }, new AjaxOptions { UpdateTargetId = "incomesList" }, null))
+@using (Ajax.BeginForm("AddIncome", "Income", new { area = "Incomes" }, new AjaxOptions { UpdateTargetId = "incomesList", HttpMethod = "POST", InsertionMode = InsertionMode.Replace }, null))
 {
     if (Model != null)
     {

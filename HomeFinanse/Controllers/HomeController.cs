@@ -10,14 +10,14 @@ namespace HomeFinanse.Controllers
 {
     public class HomeController : Controller
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
 
         private MainViewModel mainViewModel;
 
         public HomeController()
         { }
 
-        public HomeController(HomeBudgetDBEntities context)
+        public HomeController(HomeBudgetDBEntities1 context)
         {
             this.context = context;
         }
@@ -47,7 +47,7 @@ namespace HomeFinanse.Controllers
 
         public ActionResult Dashboard()
         {
-            this.mainViewModel = new MainViewModel(this.context, null);
+            this.mainViewModel = new MainViewModel(this.context, Session["SelectedPeriodID"]?.ToString());
 
             return View(this.mainViewModel);
         }
@@ -62,7 +62,7 @@ namespace HomeFinanse.Controllers
         [HttpGet]
         public ActionResult Summary(int selectedPeriodID)
         {
-            return View(new MainViewModel(this.context, selectedPeriodID.ToString()));
+            return PartialView(new MainViewModel(this.context, selectedPeriodID.ToString()));
         }
 
         [HttpPost]
@@ -78,7 +78,7 @@ namespace HomeFinanse.Controllers
         {
 
             MainViewModel vm = new MainViewModel(this.context, Session["SelectedPeriodID"]?.ToString());
-            return View(vm);
+            return PartialView(vm);
         }
     }
 }

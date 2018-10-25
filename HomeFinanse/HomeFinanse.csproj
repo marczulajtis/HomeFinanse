@@ -26,6 +26,7 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/b13f7b14-598f-4cb1-9984-b82268bd5f69/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/HomeFinanse</ApplicationInsightsResourceId>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -449,13 +450,6 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="admin-lte\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="admin-lte\plugins\input-mask\phone-codes\phone-codes.json" />
-    <EntityDeploy Include="Models\HomeBudgetDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>HomeBudgetDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\HomeBudgetDB.edmx.diagram">
-      <DependentUpon>HomeBudgetDB.edmx</DependentUpon>
-    </Content>
     <Content Include="Areas\Incomes\Views\web.config" />
     <Content Include="Areas\Categories\Views\Category\AddCategory.cshtml" />
     <Content Include="Areas\Categories\Views\Category\EditCategory.cshtml" />
@@ -482,6 +476,13 @@
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Areas\Outcomes\Views\Outcome\OutcomesTable.cshtml" />
     <Content Include="Areas\Incomes\Views\Income\IncomesSummary.cshtml" />
+    <EntityDeploy Include="Models\HomeBudgetDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>HomeBudgetDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\HomeBudgetDB.edmx.diagram">
+      <DependentUpon>HomeBudgetDB.edmx</DependentUpon>
+    </Content>
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\canvasjs.min.js" />
     <Content Include="scripts\canvasjs.react.js" />

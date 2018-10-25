@@ -7,12 +7,12 @@ namespace HomeFinanse.Models
 {
     public class UserViewModel
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
 
         public UserViewModel()
         { }
         
-        public HomeBudgetDBEntities Context { get { return this.context; } set { this.context = value; } }
+        public HomeBudgetDBEntities1 Context { get { return this.context; } set { this.context = value; } }
 
         public User LoginUser { get; set; }
         

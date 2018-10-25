@@ -15,7 +15,7 @@ namespace HomeFinanse.Models
     public partial class Outcomes_by_category
     {
         public string CategoryName { get; set; }
-        public int PeriodID { get; set; }
         public Nullable<decimal> Sum { get; set; }
+        public int PeriodID { get; set; }
     }
 }

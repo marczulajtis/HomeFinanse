@@ -7,8 +7,6 @@
 
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
 
-    @Scripts.Render("~/bundles/jquery")
-
     <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/scripts/tether.min.js"></script>
@@ -18,13 +16,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="~/scripts/datepicker.js"></script>
+    @*<script type="text/javascript" src="~/scripts/datepicker.js"></script>*@
 
     <script type="text/javascript" src="~/scripts/canvasjs.min.js"></script>
 
     @Scripts.Render("~/bundles/modernizr")
 
-    @Scripts.Render("~/admin-lte/js")
+    @Scripts.Render("~/custom/js")
 
     <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
 
@@ -48,10 +46,13 @@
         </script>
         }
 </head>
-<body>
+<body onload="SetCurrentPeriod();">
     @RenderBody()
 
     @RenderSection("scripts", required: false)
+
+    @Scripts.Render("~/bundles/jquery") @*For unobtrusive-ajax*@
+    @Scripts.Render("~/bundles/jqueryval") @*For validate and validate-unobtrusive*@
 
 </body>
 </html>

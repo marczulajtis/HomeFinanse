@@ -19,7 +19,6 @@ namespace HomeFinanse.Models
         {
             this.Incomes = new HashSet<Income>();
             this.Outcomes = new HashSet<Outcome>();
-            this.Summaries = new HashSet<Summary>();
         }
     
         public int PeriodID { get; set; }
@@ -31,7 +30,5 @@ namespace HomeFinanse.Models
         public virtual ICollection<Income> Incomes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Outcome> Outcomes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Summary> Summaries { get; set; }
     }
 }

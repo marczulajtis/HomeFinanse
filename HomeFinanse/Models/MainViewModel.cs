@@ -7,14 +7,14 @@ namespace HomeFinanse.Models
 {
     public class MainViewModel
     {
-        private HomeBudgetDBEntities dbContext;
+        private HomeBudgetDBEntities1 dbContext;
 
         private string selectedPeriodID;
 
         private int onAccount;
         private int shouldBe;
 
-        public MainViewModel(HomeBudgetDBEntities context, string selectedPeriodIDParam)
+        public MainViewModel(HomeBudgetDBEntities1 context, string selectedPeriodIDParam)
         {
             dbContext = context;
             this.SelectedPeriodID = selectedPeriodIDParam != null ? selectedPeriodIDParam : context?.Periods?.FirstOrDefault().PeriodID.ToString();

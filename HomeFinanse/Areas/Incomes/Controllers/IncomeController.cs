@@ -3,6 +3,7 @@ using HomeFinanse.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,26 +11,26 @@ namespace HomeFinanse.Areas.Incomes.Controllers
 {
     public class IncomeController : Controller
     {
-        private HomeBudgetDBEntities context;
+        private HomeBudgetDBEntities1 context;
 
-        public IncomeController(HomeBudgetDBEntities context)
+        private object x = new object();
+
+        public IncomeController(HomeBudgetDBEntities1 context)
         {
             this.context = context;
         }
 
-        public int SelectedPeriodID { get; private set; }
+        public int SelectedPeriodID => Session["SelectedPeriodID"] != null ? Convert.ToInt32(Session["SelectedPeriodID"]) : 1;
 
         [HttpGet]
         public ActionResult ShowIncomes()
         {
-            this.SelectedPeriodID = Convert.ToInt32(Session["SelectedPeriodID"]);
-
-            return View(new IncomeViewModel(this.context, new Income(), this.SelectedPeriodID));
+            return PartialView(new IncomeViewModel(this.context, new Income(), this.SelectedPeriodID));
         }
-                
+
         public ActionResult AddIncome()
         {
-            return View(new IncomeViewModel(this.context, new Income(), this.SelectedPeriodID));
+            return PartialView(new IncomeViewModel(this.context, new Income(), this.SelectedPeriodID));
         }
 
         [HttpPost]
@@ -43,11 +44,16 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                     {
                         if (model.NewIncome != null)
                         {
-                            // add new income to db
-                            this.context.Incomes.Add(this.CreateNewIncome(model));
-                            this.context.SaveChanges();
+                            using (var transaction = context.Database.BeginTransaction())
+                            {
+                                // add new income to db
+                                this.context.Incomes.Add(this.CreateNewIncome(model));
+                                this.context.SaveChanges();
 
-                            this.ViewData["IncomeAded"] = "Income successfully added.";
+                                transaction.Commit();
+
+                                this.ViewData["IncomeAded"] = "Income successfully added.";
+                            }
                         }
                     }
                 }
@@ -57,7 +63,7 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                 this.ModelState.AddModelError("IncomeAddingError", "Something went wrong when adding income. Try again.");
             }
 
-            return PartialView("IncomesTable", this.context.Incomes);
+            return PartialView("IncomesTable", this.context.Incomes?.Where(i => i.PeriodID == this.SelectedPeriodID));
         }
 
         [HttpDelete]
@@ -65,13 +71,16 @@ namespace HomeFinanse.Areas.Incomes.Controllers
         {
             if (this.context != null)
             {
-                Income incomeToDelete = this.context.Incomes.Where(income => income.ID == incomeID).SingleOrDefault();
-
-                if (incomeToDelete != null)
+                lock (x)
                 {
-                    // delete income from database
-                    this.context.Incomes.Remove(incomeToDelete);
-                    this.context.SaveChanges();
+                    Income incomeToDelete = this.context.Incomes.Where(income => income.ID == incomeID).SingleOrDefault();
+
+                    if (incomeToDelete != null)
+                    {
+                        // delete income from database
+                        this.context.Incomes.Remove(incomeToDelete);
+                        this.context.SaveChanges();
+                    }
                 }
             }
             else
@@ -79,13 +88,13 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                 this.ModelState.AddModelError("", "No database data loaded.");
             }
 
-            return PartialView("IncomesTable", this.context.Incomes);
-        }
+            return PartialView("IncomesTable", this.context.Incomes?.Where(i => i.PeriodID == this.SelectedPeriodID));
+        } 
 
         [HttpGet]
         public ActionResult IncomesSummary()
         {
-            return View(new MainViewModel(this.context, null));
+            return PartialView(new MainViewModel(this.context, this.SelectedPeriodID.ToString()));
         }
 
         public ActionResult UpdateIncomeDate(int incomeID)
@@ -96,6 +105,7 @@ namespace HomeFinanse.Areas.Incomes.Controllers
             {
                 income.IncomeDate = DateTime.Now;
                 income.OnAccount = true;
+                income.PeriodID = this.SelectedPeriodID;
 
                 this.context.SaveChanges();
             }
@@ -104,7 +114,7 @@ namespace HomeFinanse.Areas.Incomes.Controllers
                 this.ModelState.AddModelError("UpdateIncomeDateError", string.Format("Income date update error: {0}", ex.Message));
             }
 
-            return View("IncomesTable", this.context?.Incomes?.Where(o => o.PeriodID == income.PeriodID));
+            return PartialView("IncomesTable", this.context?.Incomes?.Where(o => o.PeriodID == income.PeriodID));
         }
 
         /// <summary>

@@ -18,6 +18,10 @@ namespace HomeFinanse
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/scripts/jquery.unobtrusive-ajax.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                        "~/scripts/jquery-validate.js",
+                        "~/scripts/jquery-validate-unobtrusive.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/scripts/moment.js"));
 
@@ -34,7 +38,7 @@ namespace HomeFinanse
                       "~/Content/Login.css"
                       ));
 
-            bundles.Add(new ScriptBundle("~/admin-lte/js").Include(
+            bundles.Add(new ScriptBundle("~/custom/js").Include(
                     "~/scripts/custom.js"
                 ));
             
@@ -65,7 +69,7 @@ namespace HomeFinanse
 
         private void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<HomeBudgetDBEntities>().ToSelf();
+            kernel.Bind<HomeBudgetDBEntities1>().ToSelf();
             kernel.Bind<MainViewModel>().ToSelf();
         }
 

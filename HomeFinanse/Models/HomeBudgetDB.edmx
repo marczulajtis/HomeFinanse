@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="HomeBudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HomeBudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -52,11 +52,7 @@
             <PropertyRef Name="SummaryID" />
           </Key>
           <Property Name="SummaryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PeriodID" Type="int" Nullable="false" />
-          <Property Name="OnAccount" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="ShouldBe" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Difference" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="PerMonth" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="SelectedPeriodID" Type="nchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -129,15 +125,15 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Summary_Period">
-          <End Role="Periods" Type="Self.Periods" Multiplicity="1" />
-          <End Role="Summary" Type="Self.Summary" Multiplicity="*" />
+        <Association Name="FK_Summary_Summary">
+          <End Role="Summary" Type="Self.Summary" Multiplicity="1" />
+          <End Role="Summary1" Type="Self.Summary" Multiplicity="0..1" />
           <ReferentialConstraint>
-            <Principal Role="Periods">
-              <PropertyRef Name="PeriodID" />
+            <Principal Role="Summary">
+              <PropertyRef Name="SummaryID" />
             </Principal>
-            <Dependent Role="Summary">
-              <PropertyRef Name="PeriodID" />
+            <Dependent Role="Summary1">
+              <PropertyRef Name="SummaryID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -179,12 +175,13 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
             <End Role="Periods" EntitySet="Periods" />
             <End Role="Outcomes" EntitySet="Outcomes" />
           </AssociationSet>
-          <AssociationSet Name="FK_Summary_Period" Association="Self.FK_Summary_Period">
-            <End Role="Periods" EntitySet="Periods" />
+          <AssociationSet Name="FK_Summary_Summary" Association="Self.FK_Summary_Summary">
             <End Role="Summary" EntitySet="Summary" />
+            <End Role="Summary1" EntitySet="Summary" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HomeBudgetDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -192,7 +189,7 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
           <Key>
             <PropertyRef Name="CategoryID" />
           </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="NFLAG" Type="Boolean" />
           <NavigationProperty Name="Outcomes" Relationship="Self.FK_Outcomes_Categories" FromRole="Categories" ToRole="Outcomes" />
@@ -235,7 +232,46 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
           <Property Name="PeriodName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Incomes" Relationship="Self.FK_Incomes_Period" FromRole="Periods" ToRole="Incomes" />
           <NavigationProperty Name="Outcomes" Relationship="Self.FK_Outcomes_Period" FromRole="Periods" ToRole="Outcomes" />
-          <NavigationProperty Name="Summaries" Relationship="HomeBudgetDBModel.FK_Summary_Period" FromRole="Period" ToRole="Summary" />
+        </EntityType>
+        <EntityType Name="Summary">
+          <Key>
+            <PropertyRef Name="SummaryID" />
+          </Key>
+          <Property Name="SummaryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SelectedPeriodID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Summary1" Relationship="Self.FK_Summary_Summary" FromRole="Summary" ToRole="Summary1" />
+          <NavigationProperty Name="Summary2" Relationship="Self.FK_Summary_Summary" FromRole="Summary1" ToRole="Summary" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Incomes_by_category">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="PeriodName" />
+            <PropertyRef Name="Value" />
+          </Key>
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Incomes_total" Type="Decimal" Precision="38" Scale="4" />
+          <Property Name="PeriodName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Outcomes_by_category">
+          <Key>
+            <PropertyRef Name="CategoryName" />
+            <PropertyRef Name="PeriodID" />
+          </Key>
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Sum" Type="Decimal" Precision="38" Scale="4" />
+          <Property Name="PeriodID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Outcomes_Categories">
           <End Role="Categories" Type="Self.Category" Multiplicity="1" />
@@ -273,11 +309,27 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HomeBudgetDBEntities" annotation:LazyLoadingEnabled="true">
+        <Association Name="FK_Summary_Summary">
+          <End Role="Summary" Type="Self.Summary" Multiplicity="1" />
+          <End Role="Summary1" Type="Self.Summary" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Summary">
+              <PropertyRef Name="SummaryID" />
+            </Principal>
+            <Dependent Role="Summary1">
+              <PropertyRef Name="SummaryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HomeBudgetDBEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Incomes" EntityType="Self.Income" />
           <EntitySet Name="Outcomes" EntityType="Self.Outcome" />
           <EntitySet Name="Periods" EntityType="Self.Period" />
+          <EntitySet Name="Summaries" EntityType="Self.Summary" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Incomes_by_category" EntityType="Self.Incomes_by_category" />
+          <EntitySet Name="Outcomes_by_category" EntityType="Self.Outcomes_by_category" />
           <AssociationSet Name="FK_Outcomes_Categories" Association="Self.FK_Outcomes_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Outcomes" EntitySet="Outcomes" />
@@ -290,85 +342,26 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
             <End Role="Periods" EntitySet="Periods" />
             <End Role="Outcomes" EntitySet="Outcomes" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="HomeBudgetDBModel.User" />
-          <EntitySet Name="Incomes_by_category" EntityType="HomeBudgetDBModel.Incomes_by_category" />
-          <EntitySet Name="Outcomes_by_category" EntityType="HomeBudgetDBModel.Outcomes_by_category" />
+          <AssociationSet Name="FK_Summary_Summary" Association="Self.FK_Summary_Summary">
+            <End Role="Summary" EntitySet="Summaries" />
+            <End Role="Summary1" EntitySet="Summaries" />
+          </AssociationSet>
           <FunctionImport Name="get_period_summary" ReturnType="Collection(HomeBudgetDBModel.get_period_summary_Result)">
             <Parameter Name="periodID" Mode="In" Type="Int32" />
             <Parameter Name="planned" Mode="In" Type="Boolean" />
           </FunctionImport>
-          <EntitySet Name="Summaries" EntityType="HomeBudgetDBModel.Summary" />
-          <AssociationSet Name="FK_Summary_Period" Association="HomeBudgetDBModel.FK_Summary_Period">
-            <End Role="Period" EntitySet="Periods" />
-            <End Role="Summary" EntitySet="Summaries" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Salt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Incomes_by_category">
-          <Key>
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="PeriodName" />
-            <PropertyRef Name="Value" />
-          </Key>
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PeriodName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Incomes_total" Type="Decimal" Precision="38" Scale="4" />
-          <Property Name="Value" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-        </EntityType>
-        <EntityType Name="Outcomes_by_category">
-          <Key>
-            <PropertyRef Name="CategoryName" />
-            <PropertyRef Name="PeriodID" />
-          </Key>
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PeriodID" Type="Int32" Nullable="false" />
-          <Property Name="Sum" Type="Decimal" Precision="38" Scale="4" />
-        </EntityType>
         <ComplexType Name="get_period_summary_Result">
           <Property Type="Int32" Name="PeriodID" Nullable="false" />
           <Property Type="Decimal" Name="Outcomes_planned" Nullable="true" Precision="38" Scale="4" />
           <Property Type="Decimal" Name="Incomes" Nullable="true" Precision="38" Scale="4" />
         </ComplexType>
-        <EntityType Name="Summary">
-          <Key>
-            <PropertyRef Name="SummaryID" />
-          </Key>
-          <Property Name="SummaryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PeriodID" Type="Int32" Nullable="false" />
-          <Property Name="OnAccount" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="ShouldBe" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Difference" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PerMonth" Type="Decimal" Precision="18" Scale="0" />
-          <NavigationProperty Name="Period" Relationship="HomeBudgetDBModel.FK_Summary_Period" FromRole="Summary" ToRole="Period" />
-        </EntityType>
-        <Association Name="FK_Summary_Period">
-          <End Type="HomeBudgetDBModel.Period" Role="Period" Multiplicity="1" />
-          <End Type="HomeBudgetDBModel.Summary" Role="Summary" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Period">
-              <PropertyRef Name="PeriodID" />
-            </Principal>
-            <Dependent Role="Summary">
-              <PropertyRef Name="PeriodID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HomeBudgetDBModelStoreContainer" CdmEntityContainer="HomeBudgetDBEntities">
+        <EntityContainerMapping StorageEntityContainer="HomeBudgetDBModelStoreContainer" CdmEntityContainer="HomeBudgetDBEntities1">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="HomeBudgetDBModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -415,34 +408,42 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Summaries">
+            <EntityTypeMapping TypeName="HomeBudgetDBModel.Summary">
+              <MappingFragment StoreEntitySet="Summary">
+                <ScalarProperty Name="SummaryID" ColumnName="SummaryID" />
+                <ScalarProperty Name="SelectedPeriodID" ColumnName="SelectedPeriodID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="HomeBudgetDBModel.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Incomes_by_category">
             <EntityTypeMapping TypeName="HomeBudgetDBModel.Incomes_by_category">
               <MappingFragment StoreEntitySet="Incomes_by_category">
-                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Incomes_total" ColumnName="Incomes total" />
                 <ScalarProperty Name="PeriodName" ColumnName="PeriodName" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Outcomes_by_category">
             <EntityTypeMapping TypeName="HomeBudgetDBModel.Outcomes_by_category">
               <MappingFragment StoreEntitySet="Outcomes_by_category">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="Sum" ColumnName="Sum" />
                 <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -455,18 +456,6 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Summaries">
-            <EntityTypeMapping TypeName="HomeBudgetDBModel.Summary">
-              <MappingFragment StoreEntitySet="Summary">
-                <ScalarProperty Name="PerMonth" ColumnName="PerMonth" />
-                <ScalarProperty Name="Difference" ColumnName="Difference" />
-                <ScalarProperty Name="ShouldBe" ColumnName="ShouldBe" />
-                <ScalarProperty Name="OnAccount" ColumnName="OnAccount" />
-                <ScalarProperty Name="PeriodID" ColumnName="PeriodID" />
-                <ScalarProperty Name="SummaryID" ColumnName="SummaryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

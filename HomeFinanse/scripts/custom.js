@@ -1,4 +1,15 @@
-﻿function ChangeBodyColor() {
+﻿
+//$(document).ready(function () {
+//    $('.date').datepicker({
+//        changeMonth: true,
+//        changeYear: true,
+//        showButtonPanel: true,
+//        yearRange: "-100:+0",
+//        dateFormat: 'dd/mm/yy'
+//    });
+//});
+
+function ChangeBodyColor() {
     $('body').addClass('whiteBackground');
 };
 
@@ -22,10 +33,13 @@ function SetCurrentPeriod() {
     });
 
     if ($("#overviewLink").hasClass("active")) {
-        LoadSummary();
+        LoadSummaryOnAppStart();
     }
     else if ($('#incomesLink').hasClass("active")) {
         $('#incomesLink').trigger("click");
+    }
+    else if ($('#outcomesLink').hasClass("active")) {
+        $('#outcomesLink').trigger("click");
     }
 };
 
@@ -34,31 +48,36 @@ function OnChangeEvent() {
     var b = $('#OnAccount').val();
     var result = b - a;
 
-    $('#Difference').val(result.toString());
+    $('#Difference').val(result);
 
-    var totalIncome = $('#TotalIncome').val();
-    var totalOutcome = $('#TotalOutcome').val();
-    var difference = $('#Difference').val();
+    var totalIncome = parseInt($('#TotalIncome').val());
+    var totalOutcome = parseInt($('#TotalOutcome').val());
+    var difference = parseInt($('#Difference').val());
 
     if (difference > 0) { 
 
-        var bilans = totalIncome - totalOutcome + difference;
+        var bilans = totalIncome - totalOutcome;
+        bilans = bilans + difference;
 
         $('#differenceLabel').text = "Za dużo o :";
-        $('#PerMonth').val(bilans.toString());
+        $('#PerMonth').val(bilans);
     }
     else {
         var abs_difference = Math.abs(difference);
-        var bilans = totalIncome - totalOutcome - abs_difference;
+        var bilans1 = (totalIncome - totalOutcome) - abs_difference;
 
         $('#differenceLabel').text = "Brakuje :";
 
-        if (bilans < 0)
+        if (bilans < 0) {
             $('#PerMonth').addClass('label-danger');
-        else
+            $('#PerMonth').removedClass('label-success');
+        }
+        else {
             $('#PerMonth').addClass('label-success');
+            $('#PerMonth').removeClass('label-danger');
+        }
         
-        $('#PerMonth').val(bilans.toString());
+        $('#PerMonth').val(bilans1.toString());
     }
 
 };

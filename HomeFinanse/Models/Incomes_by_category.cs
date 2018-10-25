@@ -15,8 +15,8 @@ namespace HomeFinanse.Models
     public partial class Incomes_by_category
     {
         public string CategoryName { get; set; }
-        public string PeriodName { get; set; }
         public Nullable<decimal> Incomes_total { get; set; }
+        public string PeriodName { get; set; }
         public decimal Value { get; set; }
     }
 }

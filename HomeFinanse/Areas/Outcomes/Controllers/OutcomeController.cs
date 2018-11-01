@@ -147,5 +147,13 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
         {
             return (DateTime.Now >= date1 && DateTime.Now <= date2);
         }
+        
+        [HttpGet]
+        public ActionResult EditOutcome(int outcomeId)
+        {
+            var outcome = context?.Outcomes?.Where(o => o.ID == outcomeId).SingleOrDefault();
+
+            return PartialView("EditOutcome", outcome);
+        }
     }
 }

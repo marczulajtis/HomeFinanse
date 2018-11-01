@@ -483,6 +483,7 @@
     <Content Include="Models\HomeBudgetDB.edmx.diagram">
       <DependentUpon>HomeBudgetDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Outcomes\Views\Outcome\EditOutcome.cshtml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\canvasjs.min.js" />
     <Content Include="scripts\canvasjs.react.js" />

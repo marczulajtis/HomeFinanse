@@ -179,3 +179,23 @@ function RefreshPeriods() {
         }
     });
 }
+
+function editOutcome(outcomeId) {
+    var data = {
+        outcomeId: outcomeId
+    };
+
+    $.ajax({
+        url: '/Outcomes/Outcome/EditOutcome/',
+        type: 'GET',
+        data: data, 
+        contentType: 'application/html',
+        success: function (content) {
+            $('#modalWrapper').html(content);
+            $('#editModal').modal("show");
+        },
+        error: function (ex) {
+            console.log(ex);
+        }
+    });
+}

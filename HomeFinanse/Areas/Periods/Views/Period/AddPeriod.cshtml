@@ -18,39 +18,35 @@
 
 @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
 
-@using (Ajax.BeginForm("AddPeriod", "Period", new { area = "Periods" }, new AjaxOptions { UpdateTargetId = "periodsList" }, null))
+@using (Ajax.BeginForm("AddPeriod", "Period", new { area = "Periods" }, new AjaxOptions { UpdateTargetId = "periodsList", OnComplete= "RefreshPeriods();" }, null))
 {
 <div class="box box-primary">
     <form role="form">
         <div class="box-body">
             <div class="form-group">
-                Period name
+                <label>Period name</label>
                 @Html.EditorFor(model => model.NewPeriod.PeriodName, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="form-group">
-                Period Start Date
-                <div class="form-group" style="margin-bottom: 0;">
-                    <div class='input-group date' id='datepicker'>
-                        @Html.EditorFor(model => model.NewPeriod.NullableStartDate, new { htmlAttributes = new { @class = "form-control date" } })
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+                <label>Period Start Date</label>
+                <div class="input-group date" data-provide="datetimepicker">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
                     </div>
+                    @Html.TextBoxFor(model => model.NewPeriod.NullableStartDate, new { @class = "form-control date" })
                 </div>
             </div>
+
             <div class="form-group">
-                Period End Date
-                <div class="form-group" style="margin-bottom: 0;">
-                    <div class='input-group date' id='datepicker1'>
-                       @* @Html.TextBoxFor(model => model.NullableEndDate, new { @id = "datepicker1",  @class = "form-control date" })*@
-                       @Html.EditorFor(model => model.NewPeriod.NullableEndDate, new { htmlAttributes = new { @class = "form-control date" } })
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+                <label>Period End Date</label>
+                <div class="input-group date" data-provide="datetimepicker">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
                     </div>
+                    @Html.TextBoxFor(model => model.NewPeriod.NullableEndDate, new { @class = "form-control date" })
                 </div>
             </div>
-            <input type="submit" value="Add period" class="btn btn-primary btn-block btn-flat"  />
+            <input type="submit" value="Add period" class="btn btn-primary btn-block btn-flat" onclick="RefreshPeriods();" />
         </div>
     </form>
 </div>

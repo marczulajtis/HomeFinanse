@@ -1,15 +1,4 @@
-﻿
-//$(document).ready(function () {
-//    $('.date').datepicker({
-//        changeMonth: true,
-//        changeYear: true,
-//        showButtonPanel: true,
-//        yearRange: "-100:+0",
-//        dateFormat: 'dd/mm/yy'
-//    });
-//});
-
-function ChangeBodyColor() {
+﻿function ChangeBodyColor() {
     $('body').addClass('whiteBackground');
 };
 
@@ -40,6 +29,9 @@ function SetCurrentPeriod() {
     }
     else if ($('#outcomesLink').hasClass("active")) {
         $('#outcomesLink').trigger("click");
+    }
+    else if ($('#periodsLink').hasClass("active")) {
+        $('#periodsLink').trigger("click");
     }
 };
 
@@ -157,16 +149,33 @@ $(function () {
     });
 });
 
+(function () {
+    $('body').on('click', '.editOutcome',  function (e) {
+        e.preventDefault();
+        $(this).attr('data-target', '#modal-container');
+        $(this).attr('data-toggle', 'modal');
+    });
 
-//$('.updateOutcomeDate').change(function() {
-//    $.ajax({
-//        url:"@Html.Raw(Url.Action(UpdateOutcomeDate, new { contoller = "Outcome", area = "Outcomes" }))",
-//        data: {Name: $(this).val()},
-//        });
-//});
-//$('.updateIncomeDate').change(function() {
-//    $.ajax({
-//        url:"@Html.Raw(Url.Action("UpdateIncomeDate", new { contoller = "Income", area = "Incomes" }))",
-//        data: {Name: $(this).val()},
-//        });
-//});
+    $('body').on('click', '.modal-close-btn', function () {
+        $('#modal-container').modal('hide');
+    });
+});
+
+function RefreshPeriods() {
+    $.ajax({
+        url: '/Home/RefreshPeriods',
+        type: 'GET',
+        dataType: 'json',
+        cache: false,
+        success: function (result) {
+            $('#periodsDropdown').html("");
+
+            for (var i = 0; i < result.periods.length; i++) {
+                $('#periodsDropdown').append($('<option></option>').val(result.periods[i].Value).html(result.periods[i].Text));
+            }
+        },
+        error: function () {
+            alert('Error occured');
+        }
+    });
+}

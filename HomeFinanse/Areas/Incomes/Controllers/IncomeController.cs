@@ -1,10 +1,7 @@
 ﻿using HomeFinanse.Areas.Incomes.Models;
 using HomeFinanse.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HomeFinanse.Areas.Incomes.Controllers

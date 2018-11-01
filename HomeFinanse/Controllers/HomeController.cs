@@ -1,9 +1,7 @@
 ﻿using HomeFinanse.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HomeFinanse.Controllers
@@ -20,6 +18,8 @@ namespace HomeFinanse.Controllers
         public HomeController(HomeBudgetDBEntities1 context)
         {
             this.context = context;
+
+            this.ViewBag.Periods = this.GetPeriods();
         }
 
         [HttpGet]
@@ -49,6 +49,8 @@ namespace HomeFinanse.Controllers
         {
             this.mainViewModel = new MainViewModel(this.context, Session["SelectedPeriodID"]?.ToString());
 
+            ViewBag.Periods = this.GetPeriods();
+
             return View(this.mainViewModel);
         }
         
@@ -76,9 +78,29 @@ namespace HomeFinanse.Controllers
         [HttpPost]
         public ActionResult Summary()
         {
-
             MainViewModel vm = new MainViewModel(this.context, Session["SelectedPeriodID"]?.ToString());
             return PartialView(vm);
+        }
+
+        [HttpGet]
+        public ActionResult RefreshPeriods()
+        {
+            return Json( new { periods = new SelectList(this.GetPeriods(), "Value", "Text") }, JsonRequestBehavior.AllowGet);
+        }
+
+        private List<SelectListItem> GetPeriods()
+        {
+            var list = new List<SelectListItem>();
+
+            if (context?.Periods != null)
+            {
+                foreach (var period in context?.Periods)
+                {
+                    list.Add(new SelectListItem { Text = period.PeriodName, Value = period.PeriodID.ToString() });
+                }
+            }
+
+            return list;
         }
     }
 }

@@ -9,11 +9,8 @@ namespace HomeFinanse.Areas.Periods.Models
 {
     public class PeriodModel : Period
     {
-        private Nullable<DateTime> nullableStartDate = DateTime.Now;
-        private Nullable<DateTime> nullableEndDate = DateTime.Now;
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        private Nullable<DateTime> nullableStartDate;
+        private Nullable<DateTime> nullableEndDate;
         public Nullable<DateTime> NullableStartDate
         {
             get
@@ -30,9 +27,6 @@ namespace HomeFinanse.Areas.Periods.Models
                 nullableStartDate = value;
             }
         }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public Nullable<DateTime> NullableEndDate
         {
             get

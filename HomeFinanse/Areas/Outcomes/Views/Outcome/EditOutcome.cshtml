@@ -1,18 +1,71 @@
-﻿@model HomeFinanse.Models.Outcome
+﻿@model HomeFinanse.Areas.Outcomes.Models.OutcomeViewModel
 
-<div class="modal fade" role="dialog" id="editModal">
+@Html.AntiForgeryToken()
+
+<div class="modal fade" role="dialog" tabindex="-1" aria-hidden="true" id="editModal" style="z-index: 1100 !important; margin-top: 20px !important;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Edit outcome</h4>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body" id="outcomeModalWrapper">
-                @Html.DisplayFor(x => x.OutcomeName)
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary modal-close-btn" data-dismiss="modal">Close</button>
-            </div>
+                @using (Ajax.BeginForm("UpdateOutcome", "Outcome", new { area = "Outcomes" }, new AjaxOptions { UpdateTargetId = "outcomesList", OnSuccess = "hideModal" }, null))
+                {
+                    <div class="box box-primary">
+                        <form role="form">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <label>Outcome name</label>
+                                    @Html.HiddenFor(model => model.NewOutcome.ID)
+                                    @Html.EditorFor(model => model.NewOutcome.OutcomeName, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                    <label>Outcome Value</label>
+                                    @Html.EditorFor(model => model.NewOutcome.Value, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <div class="input-group date" data-provide="datetimepicker">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        @Html.TextBoxFor(model => model.NewOutcome.Date, new { @class = "form-control date" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Category</label>
+                                    @Html.DropDownListFor(model => model.NewOutcome.CategoryID,
+                                new SelectList(Model.Categories, "CategoryID", "CategoryName"),
+                                new { @class = "form-control", style = "display: block; height: 34px;" })
+                                </div>
+                                <div class="form-group">
+                                    <label>Place</label>
+                                    @Html.EditorFor(model => model.NewOutcome.Place, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.NewOutcome.Planned, new { htmlAttributes = new { @class = "form-control" } })
+                                    <label>Planned</label>
+                                </div>
+                                <div class="form-group">
+                                    <label>Period</label>
+                                    @Html.HiddenFor(model => model.NewOutcome.PeriodID)
+                                    @Html.EditorFor(model => model.NewOutcome.Period.PeriodName, new { @htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                <div class="form-group">
+                                    @Html.CheckBoxFor(model => model.NewOutcome.Payed, new { htmlAttributes = new { @class = "form-control" } })
+                                    <label>Payed</label>
+                                </div>
+                                <input type="submit" value="Save" class="btn btn-primary btn-block btn-flat" />
+                            </div>
+                        </form>
+                    </div>
+                }
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary modal-close-btn" data-dismiss="modal">Close</button>
         </div>
     </div>
+</div>
 </div>

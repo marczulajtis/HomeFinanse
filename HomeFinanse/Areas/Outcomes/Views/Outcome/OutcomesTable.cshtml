@@ -1,4 +1,10 @@
 ﻿@model IEnumerable<HomeFinanse.Models.Outcome>
+
+@if (TempData["Error"] != null)
+{
+    <label class="label label-danger">@TempData["Error"]</label>
+}
+
 <div id="outcomesList" style="margin-left: 20px;">
     @if (Model != null)
     {
@@ -15,7 +21,7 @@
             <h3>
                 Outcomes
             </h3>
-
+            
             <table class="table">
                 <tr>
                     <th>
@@ -36,12 +42,6 @@
                     <th>
                         Planned
                     </th>
-                    @*<th>
-                            Planned Month
-                        </th>
-                        <th>
-                            Planed Year
-                        </th>*@
                     <th>
                         Period name
                     </th>
@@ -56,6 +56,8 @@
                 {
                     <tr>
                         <td>
+
+                            @Html.HiddenFor(modelItem => item.ID)
                             @Html.DisplayFor(modelItem => item.OutcomeName)
                         </td>
                         <td>
@@ -93,11 +95,10 @@
                             }
                             else
                             {
-                                @Ajax.ActionLink(" ", "UpdateOutcomeDate", new { controller = "Outcome", area = "Outcomes", outcomeID = item.ID }, new AjaxOptions { UpdateTargetId = "outcomesList" }, new { @class = "glyphicon glyphicon-remove black text-center" });
+                                @Ajax.ActionLink(" ", "UpdateOutcomeDate", new { controller ="Outcome", area = "Outcomes", outcomeID = item.ID }, new AjaxOptions { UpdateTargetId = "outcomesList" }, new { @class = "glyphicon glyphicon-remove black text-center" });
                         }
                         </td>
                         <td>
-                            @*@Ajax.ActionLink(" ", "EditOutcome", new { controller = "Outcome", area = "Outcomes", outcomeId = item.ID }, new { @data_toggle = "modal", @data_target = "#modalWrapper", @class = "glyphicon glyphicon-pencil" })*@
                             <a href="#" onclick="editOutcome(@item.ID);"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                         <td>

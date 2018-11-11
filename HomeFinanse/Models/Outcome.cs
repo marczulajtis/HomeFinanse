@@ -20,7 +20,7 @@ namespace HomeFinanse.Models
         public Nullable<System.DateTime> Date { get; set; }
         public int CategoryID { get; set; }
         public string Place { get; set; }
-        public Nullable<bool> Planned { get; set; }
+        public bool Planned { get; set; }
         public int PeriodID { get; set; }
         public bool Payed { get; set; }
     

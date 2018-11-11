@@ -22,7 +22,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
         [HttpGet]
         public ActionResult ShowOutcomes()
         {
-            return PartialView(new OutcomeViewModel(context, new OutcomeNotNullable(), this.SelectedPeriodID));
+            return PartialView(new OutcomeViewModel(context, new Outcome(), this.SelectedPeriodID));
         }
 
         public ActionResult AddOutcome()
@@ -32,7 +32,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
 
             if (lastlyAddedOutcome != null)
             {
-                return View(new OutcomeViewModel(this.context, new OutcomeNotNullable {
+                return View(new OutcomeViewModel(this.context, new Outcome {
                     ID = lastlyAddedOutcome.ID,
                     OutcomeName = lastlyAddedOutcome.OutcomeName,
                     Category = lastlyAddedOutcome.Category,
@@ -45,7 +45,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 }, this.SelectedPeriodID));
             }
 
-            return PartialView(new OutcomeViewModel(this.context, new OutcomeNotNullable(), this.SelectedPeriodID));
+            return PartialView(new OutcomeViewModel(this.context, new Outcome(), this.SelectedPeriodID));
         }
 
         [HttpPost]
@@ -89,7 +89,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 newOutcomeObject.Date = model.NewOutcome.Date;
                 newOutcomeObject.Place = model.NewOutcome.Place;
                 newOutcomeObject.Category = outcomeCategory;
-                newOutcomeObject.Planned = model.NewOutcome.PlannedNotNullable;
+                newOutcomeObject.Planned = model.NewOutcome.Planned;
                 newOutcomeObject.Period = outcomePeriod;
                 newOutcomeObject.Payed = model.NewOutcome.Payed;
             }
@@ -153,7 +153,34 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
         {
             var outcome = context?.Outcomes?.Where(o => o.ID == outcomeId).SingleOrDefault();
 
-            return PartialView("EditOutcome", outcome);
+            var outcomeViewModel = new OutcomeViewModel(this.context, outcome, Convert.ToInt32(Session["SelectedPeriodID"]));
+
+            return PartialView("EditOutcome", outcomeViewModel);
+        }
+        
+        [HttpPost]
+        public ActionResult UpdateOutcome(OutcomeViewModel vm)
+        {
+            try
+            {
+                var outcomeToUpdate = this.context.Outcomes.Where(o => o.ID == vm.NewOutcome.ID).SingleOrDefault();
+
+                outcomeToUpdate.CategoryID = vm.NewOutcome.CategoryID;
+                outcomeToUpdate.Date = vm.NewOutcome.Date;
+                outcomeToUpdate.OutcomeName = vm.NewOutcome.OutcomeName;
+                outcomeToUpdate.Payed = vm.NewOutcome.Payed;
+                outcomeToUpdate.PeriodID = vm.NewOutcome.PeriodID;
+                outcomeToUpdate.Planned = vm.NewOutcome.Planned;
+                outcomeToUpdate.Value = vm.NewOutcome.Value;
+
+                this.context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                this.TempData["Error"] = "Could not update outcome. Try again.";
+            }
+
+            return PartialView("PeriodsTable", this.context?.Outcomes.Where(o => o.PeriodID == this.SelectedPeriodID));
         }
     }
 }

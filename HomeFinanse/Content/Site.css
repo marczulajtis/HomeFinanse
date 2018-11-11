@@ -54,6 +54,8 @@
 }
 
 .modal-content {
-         width: 600px !important;
-         margin: 30px auto !important;
-     }
+    width: 600px !important;
+    margin: 30px auto !important;
+    height: 650px !important;
+    position: absolute;
+}

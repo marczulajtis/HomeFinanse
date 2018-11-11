@@ -199,3 +199,9 @@ function editOutcome(outcomeId) {
         }
     });
 }
+
+function hideModal() {
+    $('#editModal.close').click();
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+}

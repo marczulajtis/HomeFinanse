@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HomeBudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HomeBudgetDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -34,7 +34,7 @@
           <Property Name="Date" Type="date" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="Place" Type="varchar" MaxLength="50" />
-          <Property Name="Planned" Type="bit" />
+          <Property Name="Planned" Type="bit" Nullable="false" />
           <Property Name="PeriodID" Type="int" Nullable="false" />
           <Property Name="Payed" Type="bit" Nullable="false" />
         </EntityType>
@@ -180,8 +180,7 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
             <End Role="Summary1" EntitySet="Summary" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HomeBudgetDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -216,7 +215,7 @@ warning 6002: The table/view 'HomeBudgetDB.dbo.Outcomes_by_category' does not ha
           <Property Name="Date" Type="DateTime" Precision="0" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="Place" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Planned" Type="Boolean" />
+          <Property Name="Planned" Type="Boolean" Nullable="false" />
           <Property Name="PeriodID" Type="Int32" Nullable="false" />
           <Property Name="Payed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Outcomes_Categories" FromRole="Outcomes" ToRole="Categories" />

@@ -616,7 +616,6 @@
     <Compile Include="Areas\Incomes\IncomesAreaRegistration.cs" />
     <Compile Include="Areas\Incomes\Models\IncomeViewModel.cs" />
     <Compile Include="Areas\Outcomes\Controllers\OutcomeController.cs" />
-    <Compile Include="Areas\Outcomes\Models\OutcomeNotNullable.cs" />
     <Compile Include="Areas\Outcomes\Models\OutcomeViewModel.cs" />
     <Compile Include="Areas\Outcomes\OutcomesAreaRegistration.cs" />
     <Compile Include="Areas\Periods\Controllers\PeriodController.cs" />

@@ -8,14 +8,14 @@ namespace HomeFinanse.Controllers
 {
     public class HomeController : Controller
     {
-        private HomeBudgetDBEntities1 context;
+        private HomeBudgetDBEntities context;
 
         private MainViewModel mainViewModel;
 
         public HomeController()
         { }
 
-        public HomeController(HomeBudgetDBEntities1 context)
+        public HomeController(HomeBudgetDBEntities context)
         {
             this.context = context;
 
@@ -25,6 +25,11 @@ namespace HomeFinanse.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            if (Session["Login"] != null)
+            {
+                return RedirectToAction("Dashboard", new { userName = Session["Login"].ToString() });
+            }
+
             return View(new UserViewModel());
         }
 
@@ -35,7 +40,14 @@ namespace HomeFinanse.Controllers
 
             if (PasswordAuthentication.UserIsValid(model))
             {
-                return RedirectToAction("Dashboard");
+                Session["Login"] = model?.LoginUser;
+
+                if (Session["Login"] == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                return RedirectToAction("Dashboard", new { userName = Session["Login"].ToString() });
             }
             else
             {
@@ -45,15 +57,26 @@ namespace HomeFinanse.Controllers
             return View();
         }
 
-        public ActionResult Dashboard()
+        public ActionResult Dashboard(string userName)
         {
             this.mainViewModel = new MainViewModel(this.context, Session["SelectedPeriodID"]?.ToString());
 
             ViewBag.Periods = this.GetPeriods();
 
-            return View(this.mainViewModel);
+            if (Session["Login"] != null)
+                if (Session["Login"].ToString() == userName)
+                    return View(this.mainViewModel);
+
+            return RedirectToAction("Login");
         }
         
+        public ActionResult LogOut(UserViewModel model)
+        {
+            Session["Login"] = null;
+
+            return RedirectToAction("Login");
+        }
+
         [HttpGet]
         public void UpdateSelectedPeriod(int selectedPeriodID)
         {

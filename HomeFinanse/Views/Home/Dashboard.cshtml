@@ -10,13 +10,16 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="row">
-                <div style="margin-left: 15px; color: white;" class="col-xs-2 col-lg-2 col-md-2">
-                    <h3>Home Finanse</h3>
-                </div>
-        <div class="input-group center-control col-xs-8 col-md-9 col-lg-9" style="margin-top: 10px;">
+        <div style="margin-left: 15px; color: white;" class="col-xs-2 col-lg-2 col-md-2">
+            <h3>Home Finanse</h3>
+        </div>
+        <div class="input-group center-control col-xs-7 col-md-7 col-lg-7" style="margin-top: 10px;">
             @Html.LabelFor(model => model.SelectedPeriodID, "Current period", new { @class = "control-label input-group-addon", style = "width: 100px;" })
 
             @Html.DropDownListFor(model => model.SelectedPeriodID, new SelectList(ViewBag.Periods, "Value", "Text"), new { @class = "form-control", id = "periodsDropdown", @onchange = "SetCurrentPeriod();", @onload = "SetCurrentPeriod();", style = "height: 35px; width: 120px;" })
+        </div>
+        <div style="margin-right: 15px; color: white;" class="col-xs-2 col-lg-2 col-md-2">
+            @Html.ActionLink("Log out", "Logout", new { controller = "Home" })
         </div>
     </div>
 </nav>

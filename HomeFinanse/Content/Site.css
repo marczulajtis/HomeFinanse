@@ -56,6 +56,9 @@
 .modal-content {
     width: 600px !important;
     margin: 30px auto !important;
-    height: 650px !important;
+    min-height: 650px !important;
     position: absolute;
+}
+.modal-footer {
+    min-height: 50px;
 }

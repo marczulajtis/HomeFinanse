@@ -8,11 +8,11 @@ namespace HomeFinanse.Areas.Incomes.Controllers
 {
     public class IncomeController : Controller
     {
-        private HomeBudgetDBEntities1 context;
+        private HomeBudgetDBEntities context;
 
         private object x = new object();
 
-        public IncomeController(HomeBudgetDBEntities1 context)
+        public IncomeController(HomeBudgetDBEntities context)
         {
             this.context = context;
         }

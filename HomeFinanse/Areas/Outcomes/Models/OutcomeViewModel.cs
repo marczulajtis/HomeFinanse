@@ -10,14 +10,14 @@ namespace HomeFinanse.Areas.Outcomes.Models
 {
     public class OutcomeViewModel
     {
-        private HomeBudgetDBEntities1 context;
+        private HomeBudgetDBEntities context;
         private Outcome newOutcome = new Outcome();
         private string selectedPeriodID;
 
         public OutcomeViewModel()
         { }
         
-        public OutcomeViewModel(HomeBudgetDBEntities1 context, Outcome newOutcome, int newSelectedPeriodID)
+        public OutcomeViewModel(HomeBudgetDBEntities context, Outcome newOutcome, int newSelectedPeriodID)
         {
             this.context = context;
             this.newOutcome = newOutcome;

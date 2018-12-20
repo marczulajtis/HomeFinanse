@@ -10,9 +10,9 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
 {
     public class OutcomeController : Controller
     {
-        private HomeBudgetDBEntities1 context;
+        private HomeBudgetDBEntities context;
         
-        public OutcomeController(HomeBudgetDBEntities1 context)
+        public OutcomeController(HomeBudgetDBEntities context)
         {
             this.context = context;
         }
@@ -180,7 +180,7 @@ namespace HomeFinanse.Areas.Outcomes.Controllers
                 this.TempData["Error"] = "Could not update outcome. Try again.";
             }
 
-            return PartialView("PeriodsTable", this.context?.Outcomes.Where(o => o.PeriodID == this.SelectedPeriodID));
+            return PartialView("OutcomesTable", this.context?.Outcomes.Where(o => o.PeriodID == this.SelectedPeriodID));
         }
     }
 }

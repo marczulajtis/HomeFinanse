@@ -15,10 +15,10 @@ namespace HomeFinanse.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class HomeBudgetDBEntities1 : DbContext
+    public partial class HomeBudgetDBEntities : DbContext
     {
-        public HomeBudgetDBEntities1()
-            : base("name=HomeBudgetDBEntities1")
+        public HomeBudgetDBEntities()
+            : base("name=HomeBudgetDBEntities")
         {
         }
     
@@ -33,8 +33,8 @@ namespace HomeFinanse.Models
         public virtual DbSet<Period> Periods { get; set; }
         public virtual DbSet<Summary> Summaries { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Incomes_by_category> Incomes_by_category { get; set; }
         public virtual DbSet<Outcomes_by_category> Outcomes_by_category { get; set; }
+        public virtual DbSet<database_firewall_rules> database_firewall_rules { get; set; }
     
         public virtual ObjectResult<get_period_summary_Result> get_period_summary(Nullable<int> periodID, Nullable<bool> planned)
         {

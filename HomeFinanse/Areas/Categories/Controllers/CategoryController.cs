@@ -10,9 +10,9 @@ namespace HomeFinanse.Areas.Categories.Controllers
 {
     public class CategoryController : Controller
     {
-        private HomeBudgetDBEntities1 context;
+        private HomeBudgetDBEntities context;
 
-        public CategoryController(HomeBudgetDBEntities1 context)
+        public CategoryController(HomeBudgetDBEntities context)
         {
             this.context = context;
         }

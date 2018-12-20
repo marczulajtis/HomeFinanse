@@ -476,6 +476,7 @@
     <Content Include="scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Areas\Outcomes\Views\Outcome\OutcomesTable.cshtml" />
     <Content Include="Areas\Incomes\Views\Income\IncomesSummary.cshtml" />
+    <Content Include="Areas\Outcomes\Views\Outcome\EditOutcome.cshtml" />
     <EntityDeploy Include="Models\HomeBudgetDB.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HomeBudgetDB.Designer.cs</LastGenOutput>
@@ -483,7 +484,6 @@
     <Content Include="Models\HomeBudgetDB.edmx.diagram">
       <DependentUpon>HomeBudgetDB.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Outcomes\Views\Outcome\EditOutcome.cshtml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\canvasjs.min.js" />
     <Content Include="scripts\canvasjs.react.js" />
@@ -606,7 +606,9 @@
     <Content Include="scripts\tether.js" />
     <Content Include="scripts\tether.min.js" />
     <None Include="scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Areas\Categories\CategoriesAreaRegistration.cs" />
@@ -630,6 +632,9 @@
       <DependentUpon>HomeBudgetDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Consts.cs" />
+    <Compile Include="Models\database_firewall_rules.cs">
+      <DependentUpon>HomeBudgetDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\get_period_summary_Result.cs">
       <DependentUpon>HomeBudgetDB.tt</DependentUpon>
     </Compile>
@@ -649,9 +654,6 @@
       <DependentUpon>HomeBudgetDB.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Income.cs">
-      <DependentUpon>HomeBudgetDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Incomes_by_category.cs">
       <DependentUpon>HomeBudgetDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MainViewModel.cs" />

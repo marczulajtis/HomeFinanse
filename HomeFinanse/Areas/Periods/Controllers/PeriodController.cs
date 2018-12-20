@@ -9,9 +9,9 @@ namespace HomeFinanse.Areas.Periods.Controllers
 {
     public class PeriodController : Controller
     {
-        private HomeBudgetDBEntities1 context;
+        private HomeBudgetDBEntities context;
 
-        public PeriodController(HomeBudgetDBEntities1 context)
+        public PeriodController(HomeBudgetDBEntities context)
         {
             this.context = context;
         }
@@ -71,7 +71,7 @@ namespace HomeFinanse.Areas.Periods.Controllers
                             });
                         }
 
-                        var lastPeriodOutcomes = this.context?.Outcomes?.Where(o => o.PeriodID == lastPeriodID);
+                        var lastPeriodOutcomes = this.context?.Outcomes?.Where(o => o.PeriodID == lastPeriodID && o.Planned == true);
 
                         foreach (var outcome in lastPeriodOutcomes)
                         {

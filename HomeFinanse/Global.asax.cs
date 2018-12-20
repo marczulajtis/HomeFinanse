@@ -69,7 +69,7 @@ namespace HomeFinanse
 
         private void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<HomeBudgetDBEntities1>().ToSelf();
+            kernel.Bind<HomeBudgetDBEntities>().ToSelf();
             kernel.Bind<MainViewModel>().ToSelf();
         }
 
